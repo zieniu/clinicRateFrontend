@@ -1,0 +1,52 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav [mode]="mode.value" class="side-nav">
+    <p>
+      <button mat-icon-button (click)="sidenav.toggle()" id="btnMenu">
+        <mat-icon id="iconMenu">menu</mat-icon>
+      </button>
+    </p>
+    <mat-list class="mat-list">
+      <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="/pages/home" routerLinkActive="active">
+        <mat-icon class="menu-sub">home</mat-icon>
+        <span i18n="PagesApp|Zakladka strony glownej">Strona główna</span>
+      </b>
+      <!-- <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="" routerLinkActive="active">
+        <mat-icon class="menu-sub">trending_up</mat-icon>
+        <span i18n="PagesApp|Zakladka dochodow">Dochody</span>
+      </b>
+      <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="" routerLinkActive="active">
+        <mat-icon class="menu-sub">trending_down</mat-icon>
+        <span i18n="PagesApp|Zakladka wydatkow">Wydatki</span>
+      </b>
+      <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="" routerLinkActive="active">
+        <mat-icon class="menu-sub">pie_chart</mat-icon>
+        <span i18n="PagesApp|Zakladka statystyk">Statystyka</span>
+      </b> -->
+      <b mat-raised-button (click)="showSubmenuSettings = !showSubmenuSettings" [ngClass]="{'rotated' : showSubmenuSettings}" class="btn btn-menu">
+        <mat-icon class="menu-sub">settings</mat-icon>
+        <span i18n="PagesApp|Zakladka ustawien">Ustawienia</span>
+        <mat-icon class="menu-btn-icon" [ngClass]="{'rotated' : showSubmenuSettings}">expand_more</mat-icon>
+      </b>
+
+      <div class="submenu" [ngClass]="{'expanded' : showSubmenuSettings}">
+        <i mat-raised-button class="btn btn-submenu" routerLinkActive="active" routerLink="">
+          <span i18n="PagesApp|Zakladka ustawienia/ogolne">Ogólne</span>
+        </i>
+        <!-- <i mat-raised-button class="btn btn-submenu" routerLinkActive="active" routerLink="">
+          <span i18n="PagesApp|Zakladka ustawienia/kategorie">Kategorie</span>
+        </i> -->
+      </div>
+      <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="/pages/help" routerLinkActive="active">
+        <mat-icon class="menu-sub">help</mat-icon>
+        <span i18n="PagesApp|Zakladka pomocy">Pomoc</span>
+      </b>
+    </mat-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-toolbar (eventMenu)="sidenav.toggle()"></app-toolbar>
+    <div id="router-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

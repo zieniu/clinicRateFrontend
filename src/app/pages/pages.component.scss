@@ -1,0 +1,151 @@
+$phone: "only screen and (max-width: 480px)";
+$tablet: "only screen and (max-width: 959px)";
+$desktop: "only screen and (min-width: 960px)";
+/* Glowny kontener */
+
+.example-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/*##########################################################*/
+
+/*################## Menu boczne matlisty ##################*/
+
+/*##########################################################*/
+
+.side-nav {
+  @media #{$desktop} {
+    margin-top: 65px;
+    background-color: #3c3c3cc9 !important;
+    width: 200px;
+    text-align: center;
+    border: 1px solid #313131;
+  }
+  @media #{$tablet} {
+    #btnMenu {
+      display: block;
+    }
+    background-color: #3c3c3cc9 !important;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #313131;
+  }
+  @media #{$phone} {
+    #btnMenu {
+      display: block;
+    }
+    background-color: #3c3c3cc9 !important;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #313131;
+  }
+}
+
+/* buttony nawigacyjne w menu bocznym */
+
+.btn-menu {
+  max-height: 38px;
+  margin: 0px;
+  margin-top: 0px;
+  border: 1px solid #313131;
+  color: white;
+  transition: 300ms ease-in-out;
+  background: #3c3c3c81;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+}
+
+.btn-menu:hover {
+  background: rgb(63, 81, 181);
+  border-left: 7px solid #e83e8d;
+  letter-spacing: 1px;
+  transition: 1s;
+}
+
+.btn-menu.rotated {
+  background: rgb(63, 81, 181);
+}
+
+.btn-submenu {
+  color: white;
+  width: 95%;
+  margin: 0px;
+  background: #313131c9;
+  text-align: left;
+  border-bottom: 1px solid #505050;
+}
+
+.btn-submenu:hover {
+  border-left: 7px solid rgb(63, 81, 181);
+  border-bottom: 2px solid #ffb5d7;
+  color: #ffb5d7;
+  transition: 1s;
+}
+
+#iconMenu {
+  color: white;
+}
+
+#btnMenu {
+  display: none;
+  margin: auto;
+}
+
+mat-list b.active {
+  background-color: rgb(63, 81, 181);
+}
+
+mat-list div i.active {
+  background-color: #e83e8d50;
+}
+
+.menu-btn-icon {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
+  position: absolute;
+  right: 0;
+}
+
+.menu-sub {
+  float: left;
+  margin-right: 5px;
+}
+
+.menu-btn-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  max-height: 0;
+  overflow-y: hidden;
+  transition: max-height 500ms ease-in-out;
+  -moz-transition: max-height 500ms ease-in-out;
+  background-color: #313131c9;
+}
+
+.submenu.expanded {
+  max-height: 1000px;
+}
+
+.mat-list {
+  width: 100%;
+}
+
+/*##########################################################*/
+
+/* router outlet */
+
+#router-content {
+  margin: 25px;
+}
+
+/* gorny toolbar */
+
+.app-toolbar {
+  margin-left: 10px;
+}
