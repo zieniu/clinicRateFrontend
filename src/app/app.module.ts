@@ -10,6 +10,10 @@ import { PagesModule } from './pages/pages.module';
 import { AppRoutingModule } from 'src/_modules/_routing/app-routing.module';
 import { AngularMaterialModule } from 'src/_modules/_angular-material/angular-material.module';
 
+// ################### SERVICES #########################
+import { ClinicHttpService } from 'src/_services/http/clinic-http.service';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,10 +22,13 @@ import { AngularMaterialModule } from 'src/_modules/_angular-material/angular-ma
     PagesModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     AngularMaterialModule,
     BrowserAnimationsModule
 
   ],
-  providers: [],
+  providers: [
+    ClinicHttpService,
+  ],
   bootstrap: [AppComponent]
 }) export class AppModule { }

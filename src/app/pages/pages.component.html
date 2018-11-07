@@ -6,23 +6,23 @@
       </button>
     </p>
     <mat-list class="mat-list">
-      <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="/pages/home" routerLinkActive="active">
+      <b mat-raised-button class="btn btn-menu" routerLink="/pages/home" routerLinkActive="active">
         <mat-icon class="menu-sub">home</mat-icon>
         <span i18n="PagesApp|Zakladka strony glownej">Strona główna</span>
       </b>
-      <!-- <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="" routerLinkActive="active">
+      <b mat-raised-button class="btn btn-menu" routerLink="/pages/clinic" routerLinkActive="active">
         <mat-icon class="menu-sub">trending_up</mat-icon>
-        <span i18n="PagesApp|Zakladka dochodow">Dochody</span>
+        <span i18n="PagesApp|Zakladka dochodow">Kliniki</span>
       </b>
-      <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="" routerLinkActive="active">
+      <!-- <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="" routerLinkActive="active">
         <mat-icon class="menu-sub">trending_down</mat-icon>
         <span i18n="PagesApp|Zakladka wydatkow">Wydatki</span>
-      </b>
-      <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="" routerLinkActive="active">
+      </b> -->
+      <!-- <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="" routerLinkActive="active">
         <mat-icon class="menu-sub">pie_chart</mat-icon>
         <span i18n="PagesApp|Zakladka statystyk">Statystyka</span>
       </b> -->
-      <b mat-raised-button (click)="showSubmenuSettings = !showSubmenuSettings" [ngClass]="{'rotated' : showSubmenuSettings}" class="btn btn-menu">
+      <b mat-raised-button [ngClass]="{'rotated' : showSubmenuSettings}" class="btn btn-menu">
         <mat-icon class="menu-sub">settings</mat-icon>
         <span i18n="PagesApp|Zakladka ustawien">Ustawienia</span>
         <mat-icon class="menu-btn-icon" [ngClass]="{'rotated' : showSubmenuSettings}">expand_more</mat-icon>

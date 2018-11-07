@@ -1,0 +1,69 @@
+<div class="example-header">
+
+    <div id="optionContainer">
+      <div id="filterContainer">
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtr">
+        </mat-form-field>
+      </div>
+      <div id="selectContainer">
+        <mat-form-field>
+          <mat-select placeholder="Miasto" name="food">
+            <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
+                {{food.viewValue}}
+              </mat-option> -->
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Województwo" name="food">
+            <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
+                  {{food.viewValue}}
+                </mat-option> -->
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+</div>
+<div class="mat-elevation-z8" style="clear: both">
+  <div class="example-container">
+    <table #table mat-table [dataSource]="dataSource" matSort>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.clinicId}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Nazwa </th>
+        <td mat-cell *matCellDef="let element"> {{element.clinicName}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="cityId">
+        <th mat-header-cell *matHeaderCellDef> Miasto </th>
+        <td mat-cell *matCellDef="let element"> {{element.cityId}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="provinceId">
+        <th mat-header-cell *matHeaderCellDef> Województwo </th>
+        <td mat-cell *matCellDef="let element"> {{element.provinceId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="buttonMore">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-raised-button color="primary" class="btn-more">
+            <span i18n="ClinicList|Przycisk ukazujacy szczegoly Kliniki">Więcej</span>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+</div>

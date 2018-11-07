@@ -7,11 +7,14 @@ import { HomeModule } from './home/home.module';
 import { AppRoutingModule } from 'src/_modules/_routing/app-routing.module';
 import { HelpModule } from './help/help.module';
 import { PagesRoutingModule } from 'src/_modules/_routing/pages.routing.module';
+import { ClinicComponent } from './clinic/clinic.component';
+import { ClinicModule } from './clinic/clinic.module';
 
 @NgModule({
   imports: [
     HomeModule,
     HelpModule,
+    ClinicModule,
     CommonModule,
     AngularMaterialModule,
     PagesRoutingModule,

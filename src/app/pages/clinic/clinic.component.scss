@@ -1,0 +1,87 @@
+/* Structure */
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-height: 700px;
+  overflow: auto;
+}
+
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.mat-column-id {
+  flex: 0 0 100px;
+}
+
+.mat-column-name {
+  flex: 0 0 auto;
+  max-width: 600px;
+}
+
+.mat-column-cityId {
+  flex: 0 0 150px;
+  min-width: 60px;
+}
+
+.mat-column-provinceId {
+  flex: 0 0 150px;
+  min-width: 60px;
+}
+
+.mat-column-buttonMore {
+  max-width: 7%;
+  min-width: 90px;
+}
+
+/* Przycisk wiecej */
+.btn-more {
+  width: 60%;
+}
+
+.btn-more:hover {
+  transition: all 300ms;
+  background-color: #ff4081;
+  // letter-spacing: 2px;
+}
+
+// CONTAINERS HEADERS
+
+#optionsContainer {
+  width: 100%;
+  align-items: center;
+}
+
+#filterContainer {
+  width: 48%;
+  float: left;
+}
+
+#filterContainer {
+  mat-form-field {
+    width: 100%;
+    input {
+      width: 100%;
+    }
+  }
+}
+
+#selectContainer {
+  width: 50%;
+  float: right;
+  align-items: center;
+
+  mat-form-field {
+    width: 48%;
+    float: left;
+    margin-left: 2%;
+    mat-select {
+      width: 100%;
+    }
+  }
+}
+
+

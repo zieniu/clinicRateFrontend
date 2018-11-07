@@ -3,6 +3,7 @@ import { PagesComponent } from 'src/app/pages';
 import { HomeComponent } from 'src/app/pages/home';
 import { HelpComponent } from 'src/app/pages/help';
 import { NgModule } from '@angular/core';
+import { ClinicComponent } from 'src/app/pages/clinic';
 
 const pagesRoutes: Routes = [{
   path: 'pages', component: PagesComponent, children: [
@@ -13,6 +14,10 @@ const pagesRoutes: Routes = [{
     {
       path: 'home',
       component: HomeComponent
+    },
+    {
+      path: 'clinic',
+      component: ClinicComponent
     },
     {
       path: 'help',
