@@ -45,22 +45,12 @@
 .btn-more:hover {
   transition: all 300ms;
   background-color: #ff4081;
-  // letter-spacing: 2px;
+  letter-spacing: 2px;
 }
 
 // CONTAINERS HEADERS
 
-#optionsContainer {
-  width: 100%;
-  align-items: center;
-}
-
-#filterContainer {
-  width: 48%;
-  float: left;
-}
-
-#filterContainer {
+.col-sm-2 {
   mat-form-field {
     width: 100%;
     input {
@@ -69,19 +59,26 @@
   }
 }
 
-#selectContainer {
-  width: 50%;
-  float: right;
-  align-items: center;
-
+.col-sm-6 {
   mat-form-field {
-    width: 48%;
-    float: left;
-    margin-left: 2%;
-    mat-select {
+    width: 100%;
+    input {
       width: 100%;
     }
   }
 }
+
+.btnAddClinic {
+  width: 150px;
+  height: 45px;
+  float: right;
+}
+
+.btnAddClinic:hover{
+  transition: all 300ms;
+  background-color: #ff4081;
+  letter-spacing: 2px;
+}
+
 
 

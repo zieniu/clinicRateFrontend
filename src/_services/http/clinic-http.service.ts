@@ -11,7 +11,18 @@ export class ClinicHttpService {
 
   constructor(private http: HttpClient) { }
 
+
+  // Pobieranie listy klinik
   getClinics(): Observable<Array<Clinic>> {
     return this.http.get<Array<Clinic>>(this.linkHttp);
+  }
+// Dodawanie nowej kliniki
+  addClinic(clinic: Clinic): Observable<Clinic> {
+    return this.http.post<Clinic>(this.linkHttp, clinic);
+  }
+
+  // Update kliniki
+  updateClinic(clinic: Clinic): Observable<Clinic> {
+    return this.http.put<Clinic>(this.linkHttp, clinic);
   }
 }

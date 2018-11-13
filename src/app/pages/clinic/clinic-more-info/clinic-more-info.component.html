@@ -1,0 +1,59 @@
+<div class="container">
+<h3 mat-dialog-title>{{data.header}}</h3>
+<div style="float: left">
+    <div class="containerButtons">
+        <button mat-raised-button color="primary">Edycja</button>
+        <br>
+        <button mat-raised-button color="primary">Usuń</button>
+        <br>
+        <button mat-raised-button color="primary">Zmień lokalizację</button>
+        <br>
+        <button mat-raised-button color="primary">Potwierdź</button>
+      </div>
+      <div class="containerMap">
+          <img [src]="mapGoogle">
+        </div>
+</div>
+<mat-dialog-content>
+  <mat-form-field>
+    <textarea [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.clinicName" [ngModelOptions]="{standalone: true}" type="text"
+     i18n-placeholder="ClinicMoreInfo|Nazwa kliniki" placeholder="Nazwa kliniki" #clinicName required></textarea>
+     <mat-error *ngIf="clinicName.invalid && (clinicName.dirty || clinicName.touched)">
+      Clinic name is required!
+    </mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.street" [ngModelOptions]="{standalone: true}" type="text"
+     i18n-placeholder="ClinicMoreInfo|Ulica" placeholder="Ulica" #street required>
+     <mat-error *ngIf="street.invalid && (street.dirty || street.touched)">
+      Street is required!
+    </mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.postCode" [ngModelOptions]="{standalone: true}" type="text"
+     i18n-placeholder="ClinicMoreInfo|Kod pocztowy" placeholder="Kod pocztowy" #postCode required>
+     <mat-error *ngIf="postCode.invalid && (postCode.dirty || postCode.touched)">
+      PostCode is required!
+    </mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.cityId" [ngModelOptions]="{standalone: true}" type="text"
+     i18n-placeholder="ClinicMoreInfo|Miasto" placeholder="Miasto" #city required>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.provinceId" [ngModelOptions]="{standalone: true}" type="text"
+     i18n-placeholder="ClinicMoreInfo|Województwo" placeholder="Województwo" #province required>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.phoneNumber" [ngModelOptions]="{standalone: true}" type="text"
+     i18n-placeholder="ClinicMoreInfo|Telefon" placeholder="Telefon" #phoneNumber required>
+  </mat-form-field>
+</mat-dialog-content>
+<br>
+
+</div>

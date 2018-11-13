@@ -1,0 +1,48 @@
+.container {
+  height: 750px;
+  max-height: 750px;
+}
+
+// ################### Container z przyciskami #############
+$buttonWidth: 300px; // szerokosc buttonow
+$buttonHeight: 60px; // wysokosc buttonow
+
+.containerButtons{
+border: 2px solid rgba(128, 128, 128, 0.192);
+border-radius: 10px;
+float: left;
+margin-bottom: 20px;
+}
+
+button {
+width: $buttonWidth;
+height: $buttonHeight;
+margin: 0px 5px 5px 5px;
+}
+
+button:first-of-type{
+  margin-top: 5px;
+}
+
+.containerMap {
+  img {
+    width: 300px;
+    margin: 5px;
+  }
+}
+
+// ###########################################################
+// ####################### Content ###########################
+
+mat-dialog-content {
+  margin: 20px;
+  float: left;
+}
+
+mat-form-field {
+  width: 400px;
+  input {
+    max-width: 400px;
+    width: 100%;
+  }
+}

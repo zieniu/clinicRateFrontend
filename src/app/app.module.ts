@@ -2,6 +2,7 @@
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // ################### COMPONENTS ######################
@@ -12,7 +13,6 @@ import { AngularMaterialModule } from 'src/_modules/_angular-material/angular-ma
 
 // ################### SERVICES #########################
 import { ClinicHttpService } from 'src/_services/http/clinic-http.service';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,6 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     AngularMaterialModule,
     BrowserAnimationsModule
-
   ],
   providers: [
     ClinicHttpService,
