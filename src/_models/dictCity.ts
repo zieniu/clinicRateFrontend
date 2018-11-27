@@ -1,6 +1,6 @@
 export class DictCity {
   dictCityId: number;
-  name: number;
+  name: string;
 
   copyValues(_ticket: DictCity) {
     this.dictCityId = _ticket.dictCityId;

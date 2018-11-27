@@ -1,0 +1,65 @@
+<mat-vertical-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>
+        <span i18n="ClinicAddress|Wojewodztwo">Wprowadź województwo i kod pocztowy</span>
+      </ng-template>
+      <mat-form-field class="example-full-width">
+        <input type="text" i18n-placeholder="ClinicAddress|Wojewodztwo" placeholder="Województwo" aria-label="Number"
+          matInput [formControl]="provinceControl" [matAutocomplete]="autoProvince" required>
+        <mat-autocomplete #autoProvince="matAutocomplete">
+          <mat-option *ngFor="let province of filteredProvincies | async" [value]="province">
+            {{province}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="example-full-width">
+        <input matInput #postalCode maxlength="6" i18n-placeholder="ClinicAddress|Kod pocztowy" placeholder="Kod pocztowy"
+          [formControl]="postCodeControl" required>
+        <mat-hint align="end">{{postalCode.value.length}} / 6</mat-hint>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext *ngIf="checkValidateFirstForm()">
+          <span i18n="ClinicAddress|Przycisk dalej">Dalej</span>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>
+        <span i18n="ClinicAddress|Wprowadz adres">Wprowadź adres</span>
+      </ng-template>
+      <mat-form-field class="example-full-width">
+        <input type="text" i18n-placeholder="ClinicAddress|Miasto" placeholder="Miasto" aria-label="Number" matInput
+          [formControl]="cityControl" [matAutocomplete]="autoCity" required>
+        <mat-autocomplete #autoCity="matAutocomplete">
+          <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+            {{city}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput i18n-placeholder="ClinicAddress|Ulica" placeholder="Ulica i nr" [formControl]="streetControl"
+          required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>
+          <span i18n="ClinicAddress|Przycisk powrot">Powrót</span>
+        </button>
+        <button mat-button matStepperNext *ngIf="checkValidateSecondForm()">
+          <span i18n="ClinicAddress|Przycisk dalej">Dalej</span>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel><span i18n="ClinicAddress|Zatwierdzenie formularza">Zatwierdzenie</span></ng-template>
+    <span i18n="ClinicAddress|Opis operacji">Walidacja formularza przebiegła pomyslnie</span>
+    <div>
+      <button mat-button matStepperPrevious><span i18n="ClinicAddress|Przycisk powrot">Powrót</span></button>
+      <button mat-button (click)="getValuesToData()"><span i18n="ClinicAddress|Przycisk potwierdz">Potwierdź</span></button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>

@@ -1,8 +1,3 @@
-.container {
-  height: 750px;
-  max-height: 750px;
-}
-
 // ################### Container z przyciskami #############
 $buttonWidth: 300px; // szerokosc buttonow
 $buttonHeight: 60px; // wysokosc buttonow
@@ -35,14 +30,31 @@ button:first-of-type{
 // ####################### Content ###########################
 
 mat-dialog-content {
-  margin: 20px;
   float: left;
 }
 
 mat-form-field {
-  width: 400px;
+  margin: 0px 20px 0px 20px;
+  width: 350px;
   input {
-    max-width: 400px;
+    max-width: 350px;
     width: 100%;
   }
+}
+
+#enterTheAddressBtn{
+  max-width: 350px;
+  width: 96%;
+  margin: 0px 20px 0px 20px;
+  bottom: 0;
+}
+
+// ###########################################################
+// ####################### Opinions ###########################
+.opinionsContainer {
+  float: left;
+  margin-left: 15px;
+  border: 2px solid rgba(128, 128, 128, 0.192);
+  border-radius: 10px;
+  width: 350px;
 }

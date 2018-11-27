@@ -1,59 +1,63 @@
-<div class="container">
 <h3 mat-dialog-title>{{data.header}}</h3>
-<div style="float: left">
+<mat-dialog-content class="mat-typography">
+  <div style="float: left">
     <div class="containerButtons">
-        <button mat-raised-button color="primary">Edycja</button>
-        <br>
-        <button mat-raised-button color="primary">Usuń</button>
-        <br>
-        <button mat-raised-button color="primary">Zmień lokalizację</button>
-        <br>
-        <button mat-raised-button color="primary">Potwierdź</button>
-      </div>
-      <div class="containerMap">
-          <img [src]="mapGoogle">
-        </div>
-</div>
-<mat-dialog-content>
-  <mat-form-field>
-    <textarea [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.clinicName" [ngModelOptions]="{standalone: true}" type="text"
-     i18n-placeholder="ClinicMoreInfo|Nazwa kliniki" placeholder="Nazwa kliniki" #clinicName required></textarea>
-     <mat-error *ngIf="clinicName.invalid && (clinicName.dirty || clinicName.touched)">
-      Clinic name is required!
-    </mat-error>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.street" [ngModelOptions]="{standalone: true}" type="text"
-     i18n-placeholder="ClinicMoreInfo|Ulica" placeholder="Ulica" #street required>
-     <mat-error *ngIf="street.invalid && (street.dirty || street.touched)">
-      Street is required!
-    </mat-error>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.postCode" [ngModelOptions]="{standalone: true}" type="text"
-     i18n-placeholder="ClinicMoreInfo|Kod pocztowy" placeholder="Kod pocztowy" #postCode required>
-     <mat-error *ngIf="postCode.invalid && (postCode.dirty || postCode.touched)">
-      PostCode is required!
-    </mat-error>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.cityId" [ngModelOptions]="{standalone: true}" type="text"
-     i18n-placeholder="ClinicMoreInfo|Miasto" placeholder="Miasto" #city required>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.provinceId" [ngModelOptions]="{standalone: true}" type="text"
-     i18n-placeholder="ClinicMoreInfo|Województwo" placeholder="Województwo" #province required>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.phoneNumber" [ngModelOptions]="{standalone: true}" type="text"
-     i18n-placeholder="ClinicMoreInfo|Telefon" placeholder="Telefon" #phoneNumber required>
-  </mat-form-field>
+      <button mat-raised-button *ngIf="!data.isNewClinic" color="primary" (click)="data.isInEditMode = !data.isInEditMode"
+        [ngStyle]="{'background-color':data.isInEditMode ? '#3f51b5' : '#ff4081'}">
+        <span i18n="ClinicMoreInfo|Edycja kliniki">Edycja</span>
+      </button>
+      <br *ngIf="!data.isNewClinic">
+      <button mat-raised-button *ngIf="!data.isNewClinic" color="primary" [disabled]="data.isInEditMode" (click)="openDeleteDialog()"><span
+          i18n="ClinicMoreInfo|Usunięcie kliniki">Usuń</span></button>
+      <br *ngIf="!data.isNewClinic">
+      <button mat-raised-button color="primary" type="submit" [disabled]="data.isInEditMode" [mat-dialog-close]="data"><span
+          i18n="ClinicMoreInfo|Potwierdzenie zmian">Potwierdź</span></button>
+    </div>
+    <div class="containerMap">
+      <img [src]="mapGoogle">
+    </div>
+  </div>
+  <form style="float: left">
+    <mat-form-field>
+      <textarea matInput [disabled]="data.isInEditMode" type="text" i18n-placeholder="ClinicMoreInfo|Nazwa kliniki"
+        placeholder="Nazwa kliniki" [(ngModel)]="data.ticket.clinicName" [ngModelOptions]="{standalone: true}" required></textarea>
+    </mat-form-field>
+    <br>
+    <form id="addressForm">
+      <mat-form-field>
+        <input matInput [disabled]="data.isInEditMode" type="text" i18n-placeholder="ClinicMoreInfo|Ulica" placeholder="Ulica"
+          [(ngModel)]="data.ticket.street" [ngModelOptions]="{standalone: true}" readonly required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput [disabled]="data.isInEditMode" type="text" i18n-placeholder="ClinicMoreInfo|Kod pocztowy"
+          placeholder="Kod pocztowy" [(ngModel)]="data.ticket.postCode" [ngModelOptions]="{standalone: true}" readonly
+          required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput [disabled]="data.isInEditMode" type="text" i18n-placeholder="ClinicMoreInfo|Miasto" placeholder="Miasto"
+          [(ngModel)]="data.ticket.city" [ngModelOptions]="{standalone: true}" readonly required>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput [disabled]="data.isInEditMode" type="text" i18n-placeholder="ClinicMoreInfo|Województwo"
+          placeholder="Województwo" [(ngModel)]="data.ticket.province" [ngModelOptions]="{standalone: true}" readonly
+          required>
+      </mat-form-field>
+      <br>
+    </form>
+    <mat-form-field>
+      <input matInput [disabled]="data.isInEditMode" type="text" i18n-placeholder="ClinicMoreInfo|Telefon" placeholder="Telefon"
+        #phoneNumber [(ngModel)]="data.ticket.phoneNumber" [ngModelOptions]="{standalone: true}" required>
+    </mat-form-field>
+    <br>
+    <button [disabled]="data.isInEditMode" id="enterTheAddressBtn" mat-raised-button color="primary" (click)="openAddressDialog(data.ticket)">
+      <span i18n="ClinicMoreInfo|Zmiana adresu kliniki">Wprowadź adres</span>
+    </button>
+  </form>
+  <div class="opinionsContainer">
+
+  </div>
 </mat-dialog-content>
 <br>
-
-</div>
