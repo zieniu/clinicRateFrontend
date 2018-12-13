@@ -111,6 +111,10 @@ mat-list div i.active {
   right: 0;
 }
 
+.menu-btn-icon.rotated {
+  transform: rotate(180deg);
+}
+
 .menu-sub {
   float: left;
   margin-right: 5px;

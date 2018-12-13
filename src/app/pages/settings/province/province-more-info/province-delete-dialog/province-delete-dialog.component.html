@@ -1,0 +1,13 @@
+<h1 mat-dialog-title style="border-bottom: 1px solid #d6d6d6c2; width: 100%;"
+ i18n="ProvinceDeleteDialog|Naglowek usuniecia slownika province">Zatwierdzenie</h1>
+<div mat-dialog-content>
+  <p i18n="ProvinceDeleteDialog|Informacja o danej akcji `Czy aby napewno chcesz usunąć etykietę?`">{{content}}</p>
+</div>
+<div mat-dialog-actions style="float: right;">
+  <button mat-raised-button cdkFocusInitial [mat-dialog-close]="data" color="primary">
+    <span i18n="ProvinceDeleteDialog|Przycisk zatwierdzjacy usuniecie slownika">Potwierdź</span>
+  </button>
+  <button mat-raised-button type="button" [mat-dialog-close] color="accent">
+    <span i18n="ProvinceDeleteDialog|Przycisk anulujacy usuniecie slownika">Anuluj</span>
+  </button>
+</div>

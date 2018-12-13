@@ -9,18 +9,22 @@ import { HelpModule } from './help/help.module';
 import { PagesRoutingModule } from 'src/_modules/_routing/pages.routing.module';
 import { ClinicComponent } from './clinic/clinic.component';
 import { ClinicModule } from './clinic/clinic.module';
+import { CityModule } from './settings/city/city.module';
+import { ProvinceModule } from './settings/province/province.module';
 
 @NgModule({
   imports: [
     HomeModule,
     HelpModule,
+    CityModule,
     ClinicModule,
     CommonModule,
+    ProvinceModule,
     AngularMaterialModule,
     PagesRoutingModule,
   ],
   declarations: [
     PagesComponent,
-    ToolbarComponent,
+    ToolbarComponent
   ]
 }) export class PagesModule { }

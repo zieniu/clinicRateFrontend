@@ -7,10 +7,10 @@
         <span i18n="ClinicMoreInfo|Edycja kliniki">Edycja</span>
       </button>
       <br *ngIf="!data.isNewClinic">
-      <button mat-raised-button *ngIf="!data.isNewClinic" color="primary" [disabled]="data.isInEditMode" (click)="openDeleteDialog()"><span
+      <button mat-raised-button *ngIf="!data.isNewClinic && !data.delete" color="primary" (click)="openDeleteDialog()"><span
           i18n="ClinicMoreInfo|Usunięcie kliniki">Usuń</span></button>
       <br *ngIf="!data.isNewClinic">
-      <button mat-raised-button color="primary" type="submit" [disabled]="data.isInEditMode" [mat-dialog-close]="data"><span
+      <button mat-raised-button color="primary" *ngIf="!data.isInEditMode || data.isNewClinic || data.delete" type="submit" [mat-dialog-close]="data"><span
           i18n="ClinicMoreInfo|Potwierdzenie zmian">Potwierdź</span></button>
     </div>
     <div class="containerMap">

@@ -1,0 +1,27 @@
+@import 'variables';
+@import 'mixins';
+
+.login-form {
+  width: fit-content;
+  margin: auto;
+  margin-top: 20%;
+  overflow: auto;
+}
+
+.control-width {
+  width: 300px;
+}
+
+.btn-login {
+  @include buttonStyle(300px,200px,auto,1px,$buttonColorPrimary,$buttonColorPrimaryHover);
+  margin-bottom: 5px;
+}
+// znak wodny
+img {
+  position: absolute;
+  left: 250px;
+  top: 120px;
+  max-width: 400px;
+  opacity: 0.2;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}

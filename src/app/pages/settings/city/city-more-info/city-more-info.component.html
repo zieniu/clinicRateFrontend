@@ -1,0 +1,30 @@
+<h1 mat-dialog-title style="border-bottom: 1px solid #d6d6d6c2; width: 100%;" i18n="CityMoreInfo|Naglowek okna dialogowego">{{data.header}}</h1>
+<form mat-dialog-content class="details-modal">
+  <div class="btn-container">
+    <button mat-raised-button *ngIf="!data.create" (click)="data.isInEditMode = !data.isInEditMode" class="btn-edit" color="primary"
+      [ngStyle]="{'background-color':data.isInEditMode ? '#ff4081' : '#3f51b5'}">
+      <span i18n="CityMoreInfo|Przycisk edycji">Edycja</span>
+    </button>
+    <button mat-raised-button *ngIf="!data.create && !data.deleted" class="btn-edit" color="primary" (click)="openConfirmationDialog()">
+      <span i18n="CityMoreInfo|Przycisk usuwajacy dany slownik">Usuń</span>
+    </button>
+    <!-- <br> -->
+    <button mat-raised-button *ngIf="data.isInEditMode || data.create || data.deleted" [mat-dialog-close]="data" class="btn-edit" color="accent"
+    [disabled]="nameDict.invalid">
+      <span i18n="CityMoreInfo|Przycisk potwierdzajacy zmiane w danym slowniku">Potwierdź</span>
+    </button>
+  </div>
+  <div class="text-fields">
+    <mat-form-field *ngIf="!data.create">
+      <input [disabled]="true" matInput [(ngModel)]="data.ticket.dictCityId" [ngModelOptions]="{standalone: true}" type="text"
+        i18n-placeholder="CityMoreInfo|Id etykiety (slownika)" placeholder="Id etykiety" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input [disabled]="!data.isInEditMode" matInput [(ngModel)]="data.ticket.name" [ngModelOptions]="{standalone: true}"
+        type="text" i18n-placeholder="CityMoreInfo|Nazwa slownika" placeholder="Nazwa etykiety" #nameDict="ngModel" required>
+        <mat-error *ngIf="nameDict.invalid && (nameDict.dirty || nameDict.touched)">
+          Name dictionary is required.
+        </mat-error>
+    </mat-form-field>
+  </div>
+</form>

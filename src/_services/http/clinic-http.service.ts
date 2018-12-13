@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable()
 export class ClinicHttpService {
 
-  linkHttp = `${environment.apiUrl}clinic`;
+  linkHttp = `${environment.apiUrl}clinic/`;
 
   constructor(private http: HttpClient) { }
 
@@ -27,6 +27,6 @@ export class ClinicHttpService {
   }
 
   deleteClinic(clinicId: number) {
-    return this.http.delete<Clinic>(this.linkHttp + '/' + clinicId );
+    return this.http.delete<Clinic>(this.linkHttp + clinicId );
   }
 }

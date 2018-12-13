@@ -25,5 +25,13 @@ export class ToolbarComponent implements OnInit {
     // this.authenticationService.logout();
   }
 
+  checkLogin(): boolean { // sprawdzanie czy uzytkownik jest zalogowany
+    if (localStorage.getItem('currentUser')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
 }

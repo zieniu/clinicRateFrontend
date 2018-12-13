@@ -1,0 +1,42 @@
+<div class="register-form">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div>
+      <mat-form-field class="control-width">
+        <input #login matInput type="text" i18n-placeholder="Register|Pole wprowadzania loginu" placeholder="Login"
+          formControlName="login" required autofocus>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="control-width">
+        <input #password matInput type="password" formControlName="password" i18n-placeholder="Register|Pole wprowadzania hasla"
+          placeholder="Haslo" [type]="passHide ? 'password' : 'text'" required>
+        <mat-icon matSuffix (click)="passHide = !passHide" style="cursor:pointer">{{passHide? 'visibility' :
+          'visibility_off'}}</mat-icon>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="control-width">
+        <input #login matInput type="email" i18n-placeholder="Register|Pole wprowadzania emaila" placeholder="Email"
+          formControlName="email" required autofocus>
+      </mat-form-field>
+    </div>
+    <!-- <div>
+      <mat-form-field class="control-width">
+        <mat-select placeholder="Poziom dostępu" formControlName="accessLevel" required>
+          <mat-option *ngFor="let level of accessLevel" [value]="level.value">
+            {{level.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+    <div class="form-group">
+      <button [disabled]="loading || getCheckRequired()" class="btn-register" mat-raised-button color="primary">
+        <span i18n="Register|Przycisk rejestracji">Rejestracja</span>
+      </button>
+      <br>
+      <button [disabled]="loading" class="btn-register" routerLink="/login" mat-raised-button color="primary">
+        <span i18n="Register|Przycisk anulowania">Anuluj</span>
+      </button>
+    </div>
+  </form>
+</div>

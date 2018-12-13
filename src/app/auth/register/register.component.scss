@@ -1,0 +1,30 @@
+@import 'variables';
+@import 'mixins';
+
+.register-form {
+  width: fit-content;
+  margin: auto;
+  margin-top: 15%;
+  overflow: auto;
+}
+
+.control-width {
+  min-width: 300px;
+  width: 15vw;
+  margin-top: 5px;
+}
+
+// znak wodny
+img {
+  position: absolute;
+  left: 250px;
+  top: 120px;
+  max-width: 400px;
+  opacity: 0.2;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+
+.btn-register {
+  @include buttonStyle(300px,200px,auto,1px,$buttonColorPrimary,$buttonColorPrimaryHover);
+  margin-bottom: 5px;
+}

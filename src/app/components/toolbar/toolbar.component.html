@@ -7,6 +7,7 @@
   <div id="label"><b>ClinicRate</b></div>
   <span class="app-spacer"></span>
   <span>
-    <button mat-raised-button id="logoutBtn" color="accent" (click)="logout()">Wyloguj</button>
+    <button mat-raised-button id="logoutBtn" color="accent" *ngIf="checkLogin()" (click)="logout()">Wyloguj</button>
+    <button mat-raised-button id="logoutBtn" color="accent" *ngIf="!checkLogin()" [routerLink]="['/login']">Zaloguj</button>
   </span>
 </mat-toolbar>

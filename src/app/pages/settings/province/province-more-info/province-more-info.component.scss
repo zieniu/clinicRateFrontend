@@ -1,0 +1,30 @@
+@import 'variables';
+@import 'mixins';
+
+.details-modal {
+  width: 600px;
+  max-width: 99%;
+  text-align: center;
+  margin-left: 6px;
+}
+.text-fields{
+  display: grid;
+  float: left;
+  width: 300px;
+  margin-left: 25px;
+}
+.right {
+  float: right;
+}
+
+.btn-container {
+  max-width: 200px;
+  height: auto;
+  float: left;
+  // border: 2px double #b8b8b857;
+}
+
+.btn-edit{
+  @include buttonStyle(150px,150px,50px,0,$buttonColorPrimary,null);
+  margin: 10px;
+}

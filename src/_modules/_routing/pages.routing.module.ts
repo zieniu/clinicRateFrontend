@@ -4,6 +4,8 @@ import { HomeComponent } from 'src/app/pages/home';
 import { HelpComponent } from 'src/app/pages/help';
 import { NgModule } from '@angular/core';
 import { ClinicComponent } from 'src/app/pages/clinic';
+import { CityComponent } from 'src/app/pages/settings/city';
+import { ProvinceComponent } from 'src/app/pages/settings/province';
 
 const pagesRoutes: Routes = [{
   path: 'pages', component: PagesComponent, children: [
@@ -18,6 +20,19 @@ const pagesRoutes: Routes = [{
     {
       path: 'clinic',
       component: ClinicComponent
+    },
+    {
+      path: 'settings',
+      children: [
+        {
+          path: 'city',
+          component: CityComponent
+        },
+        {
+          path: 'province',
+          component: ProvinceComponent
+        },
+      ]
     },
     {
       path: 'help',

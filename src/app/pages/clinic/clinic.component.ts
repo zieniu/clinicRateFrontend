@@ -95,7 +95,7 @@ export class ClinicComponent implements OnInit {
           if (isNewTicket) {  // jezeli tworzymy nowa klinike
             this.clinicHttpService.addClinic(result.ticket).subscribe(src => { // dodawanie nowej kliniki do bazy danych
               this.clinicList.push(result.ticket);
-              console.log(src);
+              this.dataSource.data = this.clinicList;
               viewTable.renderRows();
             },
               error => {
@@ -115,6 +115,7 @@ export class ClinicComponent implements OnInit {
             const index = this.clinicList.indexOf(viewTicket);
             if (index > -1) {
               this.clinicList.splice(index, 1);
+              this.dataSource.data = this.clinicList;
               viewTable.renderRows();
             }
             viewTable.renderRows();

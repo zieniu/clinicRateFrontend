@@ -1,0 +1,19 @@
+@mixin buttonStyle(
+  $max-width,
+  $min-width,
+  $height,
+  $letterspacing,
+  $background,
+  $backgroundHover
+) {
+  max-width: $max-width;
+  min-width: $min-width;
+  background: $background;
+  height: $height;
+  width: 100%;
+  &:hover {
+    transition: all 300ms ease-in-out;
+    letter-spacing: $letterspacing;
+    background: $backgroundHover;
+  }
+}

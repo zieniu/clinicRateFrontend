@@ -1,4 +1,5 @@
-/* Structure */
+@import 'variables';
+@import 'mixins';
 
 .example-container {
   display: flex;
@@ -39,13 +40,9 @@
 
 /* Przycisk wiecej */
 .btn-more {
-  width: 60%;
-}
-
-.btn-more:hover {
-  transition: all 300ms;
-  background-color: #ff4081;
-  letter-spacing: 2px;
+  @include buttonStyle(150px,100px,35px,1px,$buttonColorPrimary,$buttonColorPrimaryHover);
+  margin-right:2%;
+  color: white;
 }
 
 // CONTAINERS HEADERS
@@ -59,17 +56,18 @@
   }
 }
 
-.btnAddClinic {
-  width: 150px;
-  height: 45px;
+.btnAddClinic { // przycisk dodajacy nowa klinike
+  @include buttonStyle(200px,100px,45px,1px,$buttonColorPrimary,$buttonColorPrimaryHover);
   float: right;
   right: 0;
+  color:white;
 }
 
-.btnAddClinic:hover{
-  transition: all 300ms;
-  background-color: #ff4081;
-  letter-spacing: 2px;
+.btnStatistic{ // statystyki klinik
+  @include buttonStyle(200px,100px,45px,1px,$buttonColorPrimary,$buttonColorPrimaryHover);
+  color:white;
+  float: right;
+  margin-right: 10px;
 }
 
 
