@@ -1,0 +1,32 @@
+.details-modal {
+  width: 600px;
+  max-width: 99%;
+  text-align: center;
+  margin-left: 6px;
+}
+.text-fields{
+  display: grid;
+  float: left;
+  width: 300px;
+}
+.right {
+  float: right;
+}
+
+.btn-container {
+  max-width: 200px;
+  height: auto;
+  float: left;
+  margin-right: 20px;
+  // border: 2px double #b8b8b857;
+}
+
+.btn-detail{
+  margin: 10px;
+  width: 150px;
+  height: 50px;
+}
+
+.alert {
+  color: red;
+}

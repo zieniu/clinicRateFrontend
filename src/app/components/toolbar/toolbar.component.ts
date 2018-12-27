@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/_services/authentication.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,7 +12,7 @@ export class ToolbarComponent implements OnInit {
   @Output() eventMenu = new EventEmitter<boolean>();
   @Input() hide: boolean; // Ukrywanie button MENU
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
   }
@@ -21,8 +22,8 @@ export class ToolbarComponent implements OnInit {
   }
 
   logout() {
-    // this.router.navigateByUrl('/login');
-    // this.authenticationService.logout();
+    this.router.navigateByUrl('/login');
+    this.authenticationService.logout();
   }
 
   checkLogin(): boolean { // sprawdzanie czy uzytkownik jest zalogowany

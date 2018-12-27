@@ -10,12 +10,15 @@ export class RoleGuardService {
     let tokenPayload;
 
     const currentUser = localStorage.getItem('currentUser');
-    tokenPayload = decode(currentUser);
-    const role = parseInt(tokenPayload.role, 10);
+    if (currentUser !== null) {
+      tokenPayload = decode(currentUser);
+      const role = parseInt(tokenPayload.role, 10);
 
-    if (role < levelAccess) {
-      return false;
+      if (role < levelAccess) {
+        return false;
+      }
+      return true;
     }
-    return true;
+    return false;
   }
 }

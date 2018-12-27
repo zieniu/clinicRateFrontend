@@ -7,6 +7,8 @@ import { DictProvince } from 'src/_models/dictProvince';
 import { DictProvinceHttpService } from 'src/_services/http/dict-province-http.service';
 import { DictCityHttpService } from 'src/_services/http/dict-city-http.service';
 import { DictCity } from 'src/_models/dictCity';
+import { RoleGuardService } from 'src/_services/role-guard.service';
+import { Role } from 'src/_models/users';
 
 @Component({
   selector: 'app-clinic',
@@ -34,14 +36,17 @@ export class ClinicComponent implements OnInit {
   // MatPaginator Output
   pageEvent: PageEvent;
 
+  // ROLE
+  role = Role; // zmienna odpowiedzialna za okreslenie dostepu
+
   constructor(private clinicHttpService: ClinicHttpService, public dialog: MatDialog,
-    private dictProvinceHttpService: DictProvinceHttpService, private dictCityHttpService: DictCityHttpService) { }
+    public roleGuardService: RoleGuardService) { }
 
   ngOnInit() {
     this.clinicHttpService.getClinics().subscribe(src => { // pobieranie listy klinik z bazy danych
       src.forEach(s => {
         const clinic = new Clinic(); // przepisywanie klinik do nowych obiektow i dodawanie ich do listy
-          clinic.city = s.city,
+        clinic.city = s.city,
           clinic.clinicId = s.clinicId,
           clinic.clinicName = s.clinicName,
           clinic.latitude = s.latitude,
@@ -93,14 +98,24 @@ export class ClinicComponent implements OnInit {
       if (result !== undefined) { // jezeli dane przeszły walidacje
         if (!result.delete) {
           if (isNewTicket) {  // jezeli tworzymy nowa klinike
-            this.clinicHttpService.addClinic(result.ticket).subscribe(src => { // dodawanie nowej kliniki do bazy danych
-              this.clinicList.push(result.ticket);
-              this.dataSource.data = this.clinicList;
-              viewTable.renderRows();
-            },
-              error => {
-                console.log(error);
-              });
+            if (this.roleGuardService.checkPermission(1)) { // sprawdzanie czy dodajemy bezposredno do listy klinik czy do poczekalni
+              this.clinicHttpService.addClinic(result.ticket).subscribe(src => { // dodawanie nowej kliniki do bazy danych
+                this.clinicList.push(result.ticket);
+                this.dataSource.data = this.clinicList;
+                viewTable.renderRows();
+              },
+                error => {
+                  console.log(error);
+                });
+            } else {
+              result.ticket.accepted = 0;
+              this.clinicHttpService.addClinic(result.ticket).subscribe(src => { // dodawanie nowej kliniki do bazy danych
+                console.log('DODANO DO POCZEKALNI');
+              },
+                error => {
+                  console.log(error);
+                });
+            }
           } else {  // jezeli edytujemy klinike
             this.clinicHttpService.updateClinic(result.ticket).subscribe(src => {
               viewTicket.copyValues(ticket);

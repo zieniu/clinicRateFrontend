@@ -1,0 +1,68 @@
+/* Structure */
+@import 'mixins';
+@import 'variables';
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-height: 65vh;
+  overflow: auto;
+}
+
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-column-numberUsers {
+  flex: 0 0 80px;
+}
+
+
+.mat-column-login {
+  flex: auto;
+}
+
+.mat-column-permissions {
+  flex: 0 0 300px;
+}
+
+.mat-column-dateCreated {
+  flex: 0 0 200px;
+}
+
+.mat-column-deleted {
+  flex: 0 0 100px;
+}
+
+.mat-column-buttonMore {
+  max-width: 7%;
+  min-width: 90px;
+}
+
+/* Przycisk wiecej */
+
+.btn-more {
+  @include buttonStyle(150px,100px,35px,1px,$buttonColorPrimary,$buttonColorPrimaryHover);
+  float: right;
+  right: 0;
+  color:white;
+}
+
+.btn-add {
+  @include buttonStyle(150px,100px,35px,0px,$buttonColorPrimary,$buttonColorPrimaryHover);
+  float: right;
+  right: 0;
+  color:white;
+}
+
+
+.mat-table {
+  overflow: auto;
+  max-height: 547px;
+}

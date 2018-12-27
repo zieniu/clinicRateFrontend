@@ -1,0 +1,56 @@
+<div class="example-header">
+  <mat-form-field style="width: 80%">
+    <input matInput (keyup)="applyFilter($event.target.value)" i18n-placeholder="UsersList|Filtrowanie danego użytkownika" placeholder="Filtr">
+  </mat-form-field>
+  <button mat-raised-button color="primary" class="btn-add" routerLink="/register">
+    <span i18n="UsersList|Przycisk dodajacy nowego użytkownika">Dodaj użytkownika</span>
+  </button>
+</div>
+
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="numberUsers">
+      <mat-header-cell *matHeaderCellDef>
+        <span i18n="UsersList|Numer użytkownika">No.</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index"> {{i+1}}</mat-cell>
+    </ng-container>
+
+    <!-- Login Column -->
+    <ng-container matColumnDef="login">
+      <mat-header-cell *matHeaderCellDef>
+        <span i18n="UsersList|Login użytkownika">Login</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.username}}</mat-cell>
+    </ng-container>
+
+    <!-- Uprawnienia Column -->
+    <ng-container matColumnDef="permissions">
+      <mat-header-cell *matHeaderCellDef>
+        <span i18n="UsersList|Uprawnienia użytkownika">Uprawnienia</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.accessLevel | role}}</mat-cell>
+    </ng-container>
+
+    <!-- Availability Column -->
+    <ng-container matColumnDef="deleted">
+      <mat-header-cell *matHeaderCellDef>
+        <span i18n="UsersList|Dostepnosc użytkownika">Dostępność</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.deleted | delete}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="buttonMore">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" class="btn-more" (click)="openDetailsModal(table,element,false,'Szczegóły użytkownika',false)">
+          <span i18n="UsersList|Szczegoly użytkownika">Więcej</span>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

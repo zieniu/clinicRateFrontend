@@ -8,6 +8,7 @@ export class Clinic {
   postCode: string;
   province: string;
   city: string;
+  accepted: number;
 
   copyValues(_ticket: Clinic) {
     this.clinicId = _ticket.clinicId;
@@ -19,5 +20,6 @@ export class Clinic {
     this.postCode = _ticket.postCode;
     this.province = _ticket.province;
     this.city = _ticket.city;
+    this.accepted = _ticket.accepted;
   }
 }

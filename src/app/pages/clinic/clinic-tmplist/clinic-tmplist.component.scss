@@ -1,0 +1,84 @@
+@import "variables";
+@import "mixins";
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-height: 700px;
+  overflow: auto;
+}
+
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.mat-column-id {
+  flex: 0 0 100px;
+}
+
+.mat-column-name {
+  flex: 0 0 auto;
+  max-width: 600px;
+}
+
+.mat-column-cityId {
+  flex: 0 0 150px;
+  min-width: 60px;
+}
+
+.mat-column-provinceId {
+  flex: 0 0 150px;
+  min-width: 60px;
+}
+
+.mat-column-buttonAccept {
+  max-width: 50px;
+}
+.mat-column-buttonRemove {
+  max-width: 50px;
+}
+
+.mat-column-buttonMore {
+  max-width: 7%;
+  min-width: 90px;
+}
+// Przycisk accept, remove
+.btn-accept,
+.btn-remove {
+  @include buttonStyle(
+    100px,
+    50px,
+    35px,
+    0px,
+    $buttonColorPrimary,
+    $buttonColorPrimaryHover
+  );
+  color: white;
+}
+
+/* Przycisk wiecej */
+.btn-more {
+  @include buttonStyle(
+    150px,
+    100px,
+    35px,
+    1px,
+    $buttonColorPrimary,
+    $buttonColorPrimaryHover
+  );
+  margin-right: 2%;
+  color: white;
+}
+
+// CONTAINERS HEADERS
+
+.col-12 {
+  mat-form-field {
+    width: 100%;
+    input {
+      width: 100%;
+    }
+  }
+}

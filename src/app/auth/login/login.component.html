@@ -2,7 +2,7 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div>
             <mat-form-field class="control-width">
-              <input #login matInput type="text" i18n-placeholder="Login|Pole wprowadzania loginu" placeholder="Login" formControlName="login" required autofocus>
+              <input #login matInput type="text" i18n-placeholder="Login|Pole wprowadzania loginu" placeholder="Login" formControlName="username" required autofocus>
             </mat-form-field>
           </div>
           <div>
@@ -14,7 +14,7 @@
               </mat-form-field>
             </div>
         <div class="form-group">
-            <button [disabled]="loading || getCheckRequired() && !checkSuperPassword(password.value)" class="btn-login" mat-raised-button  color="primary">
+            <button [disabled]="loading || getCheckRequired() && !checkSuperPassword(password.value)" class="btn-login" (click)="onSubmit()" mat-raised-button  color="primary">
               <span i18n="Login|Przycisk logowania">Zaloguj się</span>
             </button>
             <br>

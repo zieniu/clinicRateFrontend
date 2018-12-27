@@ -16,6 +16,12 @@ export class ClinicHttpService {
   getClinics(): Observable<Array<Clinic>> {
     return this.http.get<Array<Clinic>>(this.linkHttp);
   }
+
+  // Pobieranie listy klinik oczekujacych na zaakceptowanie
+  getClinicsTMP(): Observable<Array<Clinic>> {
+    return this.http.get<Array<Clinic>>(this.linkHttp + 'clinicsTMP');
+  }
+
   // Dodawanie nowej kliniki
   addClinic(clinic: Clinic): Observable<Clinic> {
     return this.http.post<Clinic>(this.linkHttp, clinic);
@@ -27,6 +33,8 @@ export class ClinicHttpService {
   }
 
   deleteClinic(clinicId: number) {
-    return this.http.delete<Clinic>(this.linkHttp + clinicId );
+    return this.http.delete<Clinic>(this.linkHttp + clinicId);
   }
+
+
 }

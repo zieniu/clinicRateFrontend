@@ -11,12 +11,14 @@ import { ClinicComponent } from './clinic/clinic.component';
 import { ClinicModule } from './clinic/clinic.module';
 import { CityModule } from './settings/city/city.module';
 import { ProvinceModule } from './settings/province/province.module';
+import { UserModule } from './settings/user/user.module';
 
 @NgModule({
   imports: [
     HomeModule,
     HelpModule,
     CityModule,
+    UserModule,
     ClinicModule,
     CommonModule,
     ProvinceModule,
@@ -25,6 +27,6 @@ import { ProvinceModule } from './settings/province/province.module';
   ],
   declarations: [
     PagesComponent,
-    ToolbarComponent
+    ToolbarComponent,
   ]
 }) export class PagesModule { }

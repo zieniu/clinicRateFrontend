@@ -1,6 +1,6 @@
 export class Users {
   userId?: number;
-  login?: string;
+  username?: string;
   password?: string;
   accessLevel?: number;
   deleted?: number;
@@ -11,15 +11,14 @@ export class Users {
     this.userId = _ticket.userId;
     this.accessLevel = _ticket.accessLevel;
     this.password = _ticket.password;
-    this.login = _ticket.login;
+    this.username = _ticket.username;
     this.deleted = _ticket.deleted;
     this.dateCreated = _ticket.dateCreated;
   }
 }
 
 export enum Role {
-  ReadOnly = 10,
-  Conservator = 20,
-  Moderator = 30,
-  Admin = 40
+  User = 0,
+  Moderator = 1,
+  Admin = 2
 }

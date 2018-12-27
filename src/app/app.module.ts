@@ -26,7 +26,7 @@ import { ErrorInterceptor } from 'src/_helpers/error.interceptor';
 // ################### GUARDS #########################
 import { RoleGuard } from 'src/_guards/role.guard';
 import { AuthGuard } from 'src/_guards/auth.guard';
-
+import { SnackBarService } from 'src/_services/snack-bar.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +48,7 @@ import { AuthGuard } from 'src/_guards/auth.guard';
     RoleGuardService,
     AuthenticationService,
     ClinicHttpService,
+    SnackBarService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],

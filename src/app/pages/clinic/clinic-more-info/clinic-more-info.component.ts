@@ -7,6 +7,10 @@ import { ClinicDeleteComponent } from './clinic-delete/clinic-delete.component';
 import { ClinicHttpService } from 'src/_services/http/clinic-http.service';
 import { ClinicAddressComponent } from './clinic-address/clinic-address.component';
 import { Clinic } from 'src/_models/Clinic';
+import { RoleGuardService } from 'src/_services/role-guard.service';
+import { Role } from 'src/_models/users';
+import { Opinion } from 'src/_models/opinion';
+import { OpinionHttpService } from 'src/_services/http/opinion-http.service';
 
 @Component({
   selector: 'app-clinic-more-info',
@@ -16,16 +20,35 @@ import { Clinic } from 'src/_models/Clinic';
 export class ClinicMoreInfoComponent implements OnInit {
   mapGoogle = '/assets/capture.png';
 
-  cities: any; // zmienna odpowiadająca za przechowywanie slowników dotyczących nazw miast
+  role = Role;
 
-  constructor(public dialogRef: MatDialogRef<ClinicMoreInfoComponent>,
+  cities: any; // zmienna odpowiadająca za przechowywanie slowników dotyczących nazw miast
+  opinions: Array<Opinion> = new Array<Opinion>(); // lista opinii
+
+  constructor(public dialogRef: MatDialogRef<ClinicMoreInfoComponent>, public roleGuardService: RoleGuardService,
+    private opinionHttpService: OpinionHttpService,
     private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
+    this.opinionHttpService.getOpinionsByClinic(this.data.ticket.clinicId).subscribe(src => {
+      this.opinions = src;
+    });
   }
 
   applyFilter(filterValue: string) { // Filtrowanie klinik
     this.cities.filter = filterValue.trim().toLowerCase();
+  }
+
+  addOpinion() { // dodawanie nowej opinii
+    const opinion = new Opinion();
+    opinion.username = 'zieniu';
+    opinion.rate = 5;
+    opinion.description = 'lalallala';
+    opinion.clinicId = this.data.ticket.clinicId;
+    this.opinionHttpService.addOpinion(opinion).subscribe(src => {
+      console.log(src);
+      this.opinions.push(opinion);
+    });
   }
 
   openDeleteDialog() { // metoda otwierajaca okno z potwierdzeniem usuniecia kliniki

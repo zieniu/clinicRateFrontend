@@ -1,0 +1,12 @@
+<h1 mat-dialog-title style="border-bottom: 1px solid #d6d6d6c2; width: 100%;" i18n="UserDeleteDialog|Naglowek okna dialogowego">Zatwierdzenie</h1>
+<div mat-dialog-content>
+  <p i18n="UserDeleteDialog|Informacja biezacej akcji `Czy napewno chcesz usunąć użytkownika?`,`Czy napewno chcesz przywrócic użytkownika?`">{{content}}</p>
+</div>
+<div mat-dialog-actions style="float: right;">
+  <button mat-raised-button cdkFocusInitial [mat-dialog-close]="data" color="primary">
+    <span i18n="UserDeleteDialog|Przycisk potwierdzjacy usuniecie użytkownika">Potwierdź</span>
+  </button>
+  <button mat-raised-button type="button" [mat-dialog-close] color="accent">
+      <span i18n="UserDeleteDialog|Przycisk anulujacy usuniecie użytkownika">Anuluj</span>
+    </button>
+</div>

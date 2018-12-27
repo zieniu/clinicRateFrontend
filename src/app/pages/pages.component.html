@@ -22,28 +22,28 @@
       </b>
 
       <div class="submenu" [ngClass]="{'expanded' : showSubmenuSettings}">
-        <i mat-raised-button class="btn btn-submenu" routerLinkActive="" routerLink="">
+        <!-- <i mat-raised-button class="btn btn-submenu" routerLinkActive="" routerLink="">
           <span i18n="PagesApp|Zakladka ustawienia/ogolne">Ogólne</span>
-        </i>
-        <i mat-raised-button class="btn btn-submenu" routerLinkActive="" routerLink="">
+        </i> -->
+        <i mat-raised-button class="btn btn-submenu" routerLinkActive="active" routerLink="/pages/settings/clinicTMP">
           <span i18n="PagesApp|Zakladka ustawienia/poczekalnia kliniki">Kliniki poczekalnia</span>
         </i>
-        <i mat-raised-button class="btn btn-menu" routerLinkActive="active" routerLink="/pages/settingscity">
+        <i mat-raised-button class="btn btn-submenu" routerLinkActive="active" routerLink="/pages/settings/city">
 
           <span i18n="PagesApp|Zakladka ustawienia/Miasta">Miasta</span>
         </i>
-        <i mat-raised-button class="btn btn-menu" routerLinkActive="active" routerLink="/pages/settings/province">
+        <i mat-raised-button class="btn btn-submenu" routerLinkActive="active" routerLink="/pages/settings/province">
           <span i18n="PagesApp|Zakladka ustawienia/Województwa">Wojewodztwa</span>
         </i>
-        <i mat-raised-button class="btn btn-submenu" routerLinkActive="" routerLink="">
+        <i mat-raised-button class="btn btn-submenu" routerLinkActive="active" routerLink="/pages/settings/users">
           <span i18n="PagesApp|Zakladka ustawienia/poczekalnia wojewodztwa">Użytkownicy</span>
         </i>
 
       </div>
-      <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="/pages/help" routerLinkActive="active">
+      <!-- <b mat-raised-button (click)="showSubmenuSettings = false" class="btn btn-menu" routerLink="/pages/help" routerLinkActive="active">
         <mat-icon class="menu-sub">help</mat-icon>
         <span i18n="PagesApp|Zakladka pomocy">Pomoc</span>
-      </b>
+      </b> -->
     </mat-list>
   </mat-sidenav>
 

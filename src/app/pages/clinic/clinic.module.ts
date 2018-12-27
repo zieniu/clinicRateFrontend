@@ -9,9 +9,12 @@ import { SearchSelectModule } from '@oasisdigital/angular-material-search-select
 import {
   ClinicComponent,
   ClinicMoreInfoComponent,
-  ClinicDeleteComponent
+  ClinicDeleteComponent,
+  ClinicTMPListComponent,
+  ClinicAddressComponent
 } from './index';
-import { ClinicAddressComponent } from './clinic-more-info/clinic-address/clinic-address.component';
+import { OpinionHttpService } from 'src/_services/http/opinion-http.service';
+
 @NgModule({
   imports: [
     FormsModule,
@@ -25,7 +28,8 @@ import { ClinicAddressComponent } from './clinic-more-info/clinic-address/clinic
     ClinicComponent,
     ClinicMoreInfoComponent,
     ClinicDeleteComponent,
-    ClinicAddressComponent
+    ClinicAddressComponent,
+    ClinicTMPListComponent,
   ],
   entryComponents: [
     ClinicMoreInfoComponent,
@@ -34,6 +38,7 @@ import { ClinicAddressComponent } from './clinic-more-info/clinic-address/clinic
   ],
   providers: [
     DictCityHttpService,
-    DictProvinceHttpService
+    DictProvinceHttpService,
+    OpinionHttpService
   ]
 }) export class ClinicModule { }

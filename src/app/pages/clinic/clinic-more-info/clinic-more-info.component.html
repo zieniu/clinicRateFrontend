@@ -2,15 +2,14 @@
 <mat-dialog-content class="mat-typography">
   <div style="float: left">
     <div class="containerButtons">
-      <button mat-raised-button *ngIf="!data.isNewClinic" color="primary" (click)="data.isInEditMode = !data.isInEditMode"
+      <button mat-raised-button *ngIf="!data.isNewClinic && roleGuardService.checkPermission(role.Moderator)" color="primary" (click)="data.isInEditMode = !data.isInEditMode"
         [ngStyle]="{'background-color':data.isInEditMode ? '#3f51b5' : '#ff4081'}">
         <span i18n="ClinicMoreInfo|Edycja kliniki">Edycja</span>
       </button>
-      <br *ngIf="!data.isNewClinic">
-      <button mat-raised-button *ngIf="!data.isNewClinic && !data.delete" color="primary" (click)="openDeleteDialog()"><span
+      <button mat-raised-button *ngIf="!data.isNewClinic && !data.delete && roleGuardService.checkPermission(role.Moderator)" color="primary" (click)="openDeleteDialog()"><span
           i18n="ClinicMoreInfo|Usunięcie kliniki">Usuń</span></button>
-      <br *ngIf="!data.isNewClinic">
-      <button mat-raised-button color="primary" *ngIf="!data.isInEditMode || data.isNewClinic || data.delete" type="submit" [mat-dialog-close]="data"><span
+
+      <button mat-raised-button color="primary" *ngIf="!data.isInEditMode || data.delete || (data.isNewClinic && roleGuardService.checkPermission(role.User))" type="submit" [mat-dialog-close]="data"><span
           i18n="ClinicMoreInfo|Potwierdzenie zmian">Potwierdź</span></button>
     </div>
     <div class="containerMap">
@@ -52,12 +51,15 @@
         #phoneNumber [(ngModel)]="data.ticket.phoneNumber" [ngModelOptions]="{standalone: true}" required>
     </mat-form-field>
     <br>
-    <button [disabled]="data.isInEditMode" id="enterTheAddressBtn" mat-raised-button color="primary" (click)="openAddressDialog(data.ticket)">
+    <button [disabled]="data.isInEditMode" *ngIf="data.isNewClinic && roleGuardService.checkPermission(role.User)" id="enterTheAddressBtn" mat-raised-button color="primary" (click)="openAddressDialog(data.ticket)">
       <span i18n="ClinicMoreInfo|Zmiana adresu kliniki">Wprowadź adres</span>
     </button>
   </form>
-  <div class="opinionsContainer">
-
+  <div class="opinionsContainer" *ngIf="!data.isNewClinic">
+<ul *ngFor="let opinion of opinions">
+  <li>Tresc: {{opinion.description}} Login: {{opinion.username}}</li>
+</ul>
+<button (click)="addOpinion()"></button>
   </div>
 </mat-dialog-content>
 <br>

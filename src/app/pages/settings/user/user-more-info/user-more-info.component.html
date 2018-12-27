@@ -1,0 +1,48 @@
+<h1 mat-dialog-title style="border-bottom: 1px solid #d6d6d6c2; width: 100%;" i18n="UserMoreInfo|Naglowek okna dialogowego">{{data.header}}</h1>
+<form mat-dialog-content class="details-modal">
+  <div class="btn-container">
+    <button mat-raised-button *ngIf="!data.create" (click)="data.isInEditMode = !data.isInEditMode" class="btn-detail" color="primary"
+      [ngStyle]="{'background-color':data.isInEditMode ? '#ff4081' : '#3f51b5'}">
+      <span i18n="UserMoreInfo|Przycisk edycji użytkownika">Edycja</span>
+    </button>
+    <!-- <br> -->
+    <button mat-raised-button *ngIf="!data.create" class="btn-detail" color="primary" (click)="openConfirmationDialog(data.ticket.deleted)">
+        <span i18n="UserMoreInfo|Przycisk usuniecia badz przywrocenia użytkownika">{{statusButtonDelete(data.ticket.deleted)}}</span>
+      </button>
+    <!-- <br> -->
+    <button mat-raised-button *ngIf="data.isInEditMode" [disabled]="login.invalid || password.invalid"
+     [mat-dialog-close]="data" class="btn-detail" color="accent">
+      <span i18n="UserMoreInfo|Przycisk zatwierdzenia zmienionych danych">Potwierdź</span>
+    </button>
+  </div>
+  <div class="text-fields">
+    <mat-form-field *ngIf="!data.create">
+      <input [disabled]="true" matInput [(ngModel)]="data.ticket.userId" [ngModelOptions]="{standalone: true}" type="text"
+        i18n-placeholder="UserMoreInfo|Numer użytkownika" placeholder="Numer użytkownika" autofocus>
+    </mat-form-field>
+    <mat-form-field>
+      <input [disabled]="!data.isInEditMode" matInput #login="ngModel" [(ngModel)]="data.ticket.username" [ngModelOptions]="{standalone: true}" type="text"
+       i18n-placeholder="UserMoreInfo|Imie użytkownika" placeholder="Login">
+      <mat-error *ngIf="login.invalid && (login.dirty || login.touched)">
+        Login is required.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input [disabled]="!data.isInEditMode" matInput #password="ngModel" [(ngModel)]="data.ticket.password" [ngModelOptions]="{standalone: true}" type="password"
+      i18n-placeholder="UserMoreInfo|Hasło użytkownika" placeholder="Hasło">
+      <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">
+        Password is required.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select [disabled]="!data.isInEditMode" placeholder="Uprawnienia" [(ngModel)]="data.ticket.accessLevel" [ngModelOptions]="{standalone: true}">
+        <!-- <mat-option i18n="UserMoreInfo|Przypisanie do grupy do ktorej nalezy użytkownika">Brak</mat-option> -->
+        <mat-option *ngFor="let role of roles" [value]="role">{{roleLvl[role]}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="!data.create">
+      <input [disabled]="true" matInput [ngModel]="data.ticket.deleted | delete" [ngModelOptions]="{standalone: true}" type="text"
+      i18n-placeholder="UserMoreInfo|Dostepnosc użytkownika" placeholder="Dostępność">
+    </mat-form-field>
+  </div>
+</form>

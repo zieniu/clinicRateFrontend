@@ -1,23 +1,4 @@
-<div class="example-header">
-  <!-- <div class="container"> -->
-  <div class="row">
-    <div class="col-12 col-md-8">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtr">
-      </mat-form-field>
-    </div>
-    <div class="col-6 col-md-4">
-      <button mat-raised-button *ngIf="roleGuardService.checkPermission(role.User)" class="btnAddClinic" (click)="openClinicMoreInfoModal(table,undefined,false,'Tworzenie nowej kliniki', true)">
-        Dodaj klinikę
-      </button>
-      <button mat-raised-button class="btnStatistic">
-        Statystyki
-      </button>
-    </div>
-    <br>
-  </div>
-</div>
-<!-- </div>s -->
+
 <div class="mat-elevation-z8" style="clear: both">
   <div class="example-container">
     <table #table mat-table [dataSource]="dataSource">
@@ -45,10 +26,27 @@
         <td mat-cell *matCellDef="let element"> {{element.province}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="buttonAccept">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-raised-button class="btn-accept" (click)="acceptClinic(table,element)">
+            <span i18n="ClinicList|Przycisk akceptujacy klinike">Akceptuj</span>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="buttonRemove">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-raised-button class="btn-remove" (click)="removeClinic(table,element)">
+            <span i18n="ClinicList|Przycisk odrzucajacy klinike">Odrzuć</span>
+          </button>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="buttonMore">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element" style="padding-right: 0px !important">
-          <button mat-raised-button class="btn-more" (click)="openClinicMoreInfoModal(table,element,true,'Szczegóły kliniki', false)">
+          <button mat-raised-button class="btn-more" (click)="openClinicMoreInfoModal(table,element,true,'Szczegóły kliniki')">
             <span i18n="ClinicList|Przycisk ukazujacy szczegoly Kliniki">Więcej</span>
           </button>
         </td>
