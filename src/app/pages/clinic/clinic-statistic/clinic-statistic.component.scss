@@ -1,0 +1,57 @@
+@import 'variables';
+@import 'mixins';
+
+path:hover {
+  fill: rgb(93, 157, 253) !important;
+  cursor: pointer;
+  transition: fill 300ms ease-in-out;
+}
+
+svg {
+transform: scale(0.5);
+width: auto;
+height: auto;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-height: 700px;
+  height: auto;
+  overflow: auto;
+}
+
+.mat-column-id {
+  max-width: 50px;
+}
+
+.mat-column-name {
+  max-width: 600px;
+}
+
+.mat-column-cityId {
+  min-width: 60px;
+}
+
+.mat-column-average {
+  min-width: 60px;
+}
+
+// Buttony
+.btnBack{
+  @include buttonStyle(150px,100px,35px,0,$buttonColorPrimary,null);
+  color: white;
+}
+
+// naglowek
+h1 {
+  font-family: inherit;
+  color: $buttonColorPrimary;
+}
+
+.cont-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

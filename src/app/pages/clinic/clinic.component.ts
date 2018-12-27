@@ -115,7 +115,7 @@ export class ClinicComponent implements OnInit {
             } else {
               result.ticket.accepted = 0;
               this.clinicHttpService.addClinic(result.ticket).subscribe(src => { // dodawanie nowej kliniki do bazy danych
-                console.log('DODANO DO POCZEKALNI');
+
                 this.snackBarService.openSnackBar('Dodano klinikę do poczekalni.', 'Potwierdzenie', 'snackBar-success');
               },
                 error => {

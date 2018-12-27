@@ -42,7 +42,7 @@ export class ClinicMoreInfoComponent implements OnInit {
   addOpinion() { // dodawanie nowej opinii
     const opinion = new Opinion();
     opinion.username = 'zieniu';
-    opinion.rate = 5;
+    opinion.rate = Math.floor(Math.random() * 10) + 0.5 ;
     opinion.description = 'lalallala';
     opinion.clinicId = this.data.ticket.clinicId;
     this.opinionHttpService.addOpinion(opinion).subscribe(src => {

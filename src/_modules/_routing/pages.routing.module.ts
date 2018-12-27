@@ -3,7 +3,7 @@ import { PagesComponent } from 'src/app/pages';
 import { HomeComponent } from 'src/app/pages/home';
 import { HelpComponent } from 'src/app/pages/help';
 import { NgModule } from '@angular/core';
-import { ClinicComponent, ClinicTMPListComponent } from 'src/app/pages/clinic';
+import { ClinicComponent, ClinicTMPListComponent, ClinicStatisticComponent } from 'src/app/pages/clinic';
 import { CityComponent } from 'src/app/pages/settings/city';
 import { ProvinceComponent } from 'src/app/pages/settings/province';
 import { RoleGuard } from 'src/_guards/role.guard';
@@ -22,7 +22,16 @@ const pagesRoutes: Routes = [{
     },
     {
       path: 'clinic',
-      component: ClinicComponent
+      children: [
+        {
+          path: 'list',
+          component: ClinicComponent
+        },
+        {
+          path: 'statistic',
+          component: ClinicStatisticComponent
+        }
+      ]
     },
     {
       path: 'settings',

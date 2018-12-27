@@ -22,6 +22,11 @@ export class ClinicHttpService {
     return this.http.get<Array<Clinic>>(this.linkHttp + 'clinicsTMP');
   }
 
+  // Pobieranie listy klinik z danego wojewodztwa
+  getClinicByProvince(provinceId: string): Observable<Array<Clinic>> {
+    return this.http.get<Array<Clinic>>(this.linkHttp + provinceId);
+  }
+
   // Dodawanie nowej kliniki
   addClinic(clinic: Clinic): Observable<Clinic> {
     return this.http.post<Clinic>(this.linkHttp, clinic);

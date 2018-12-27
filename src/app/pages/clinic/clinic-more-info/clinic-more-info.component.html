@@ -57,7 +57,7 @@
   </form>
   <div class="opinionsContainer" *ngIf="!data.isNewClinic">
 <ul *ngFor="let opinion of opinions">
-  <li>Tresc: {{opinion.description}} Login: {{opinion.username}}</li>
+  <li>Tresc: {{opinion.description}} Srednia: {{opinion.rate}} </li>
 </ul>
 <button (click)="addOpinion()"></button>
   </div>

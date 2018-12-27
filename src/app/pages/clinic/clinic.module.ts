@@ -11,17 +11,20 @@ import {
   ClinicMoreInfoComponent,
   ClinicDeleteComponent,
   ClinicTMPListComponent,
-  ClinicAddressComponent
+  ClinicAddressComponent,
+  ClinicStatisticComponent
 } from './index';
 import { OpinionHttpService } from 'src/_services/http/opinion-http.service';
+import { PagesRoutingModule } from 'src/_modules/_routing/pages.routing.module';
 
 @NgModule({
   imports: [
     FormsModule,
     CommonModule,
     SearchSelectModule,
-    AngularMaterialModule,
+    PagesRoutingModule,
     ReactiveFormsModule,
+    AngularMaterialModule,
     NgxMatSelectSearchModule
   ],
   declarations: [
@@ -30,6 +33,7 @@ import { OpinionHttpService } from 'src/_services/http/opinion-http.service';
     ClinicDeleteComponent,
     ClinicAddressComponent,
     ClinicTMPListComponent,
+    ClinicStatisticComponent,
   ],
   entryComponents: [
     ClinicMoreInfoComponent,

@@ -10,7 +10,7 @@
       <button mat-raised-button *ngIf="roleGuardService.checkPermission(role.User)" class="btnAddClinic" (click)="openClinicMoreInfoModal(table,undefined,false,'Tworzenie nowej kliniki', true)">
         Dodaj klinikę
       </button>
-      <button mat-raised-button class="btnStatistic">
+      <button mat-raised-button class="btnStatistic" routerLink="/pages/clinic/statistic" routerLinkActive="active">
         Statystyki
       </button>
     </div>
