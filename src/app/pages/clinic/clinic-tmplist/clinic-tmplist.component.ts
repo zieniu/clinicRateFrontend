@@ -78,8 +78,10 @@ export class ClinicTMPListComponent implements OnInit {
           viewTicket.copyValues(ticket);
           viewTable.renderRows();
           console.log(src);
+          // this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
         }, error => {
           console.log(error);
+          this.snackBarService.openSnackBar('Nieudane otwieranie okna właciwosci.', 'BŁĄD', 'snackBar-error');
         });
       }
     });
@@ -95,8 +97,9 @@ export class ClinicTMPListComponent implements OnInit {
         table.renderRows();
       }
       table.renderRows();
-    },
+      this.snackBarService.openSnackBar('Zaakceprtowano klinikę.', 'Potwierdzenie', 'snackBar-success');     },
       error => {
+        this.snackBarService.openSnackBar('Akceptowanie kliniki nie powiodło się.', 'BŁĄD', 'snackBar-error');
 
       });
   }
@@ -110,8 +113,10 @@ export class ClinicTMPListComponent implements OnInit {
         table.renderRows();
       }
       table.renderRows();
+      this.snackBarService.openSnackBar('Usunięto klinikę.', 'Potwierdzenie', 'snackBar-success');
     },
       error => {
+        this.snackBarService.openSnackBar('Usuwanie kliniki nie powiodło się.', 'BŁĄD', 'snackBar-error');
 
       });
   }

@@ -9,6 +9,7 @@ import { DictCityHttpService } from 'src/_services/http/dict-city-http.service';
 import { DictCity } from 'src/_models/dictCity';
 import { RoleGuardService } from 'src/_services/role-guard.service';
 import { Role } from 'src/_models/users';
+import { SnackBarService } from 'src/_services/snack-bar.service';
 
 @Component({
   selector: 'app-clinic',
@@ -40,7 +41,8 @@ export class ClinicComponent implements OnInit {
   role = Role; // zmienna odpowiedzialna za okreslenie dostepu
 
   constructor(private clinicHttpService: ClinicHttpService, public dialog: MatDialog,
-    public roleGuardService: RoleGuardService) { }
+    public roleGuardService: RoleGuardService,
+    private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.clinicHttpService.getClinics().subscribe(src => { // pobieranie listy klinik z bazy danych
@@ -63,6 +65,7 @@ export class ClinicComponent implements OnInit {
     },
       error => {
         console.log(error);
+        this.snackBarService.openSnackBar('Pobieranie listy klinik nie powiodło się.', 'BŁĄD', 'snackBar-error');
       });
   }
 
@@ -103,17 +106,21 @@ export class ClinicComponent implements OnInit {
                 this.clinicList.push(result.ticket);
                 this.dataSource.data = this.clinicList;
                 viewTable.renderRows();
+                this.snackBarService.openSnackBar('Dodano klinikę do poczekalni.', 'Potwierdzenie', 'snackBar-success');
               },
                 error => {
                   console.log(error);
+                  this.snackBarService.openSnackBar('Dodawanie kliniki zakończyło się niepowodzeniem.', 'BŁĄD', 'snackBar-error');
                 });
             } else {
               result.ticket.accepted = 0;
               this.clinicHttpService.addClinic(result.ticket).subscribe(src => { // dodawanie nowej kliniki do bazy danych
                 console.log('DODANO DO POCZEKALNI');
+                this.snackBarService.openSnackBar('Dodano klinikę do poczekalni.', 'Potwierdzenie', 'snackBar-success');
               },
                 error => {
                   console.log(error);
+                  this.snackBarService.openSnackBar('Dodawanie kliniki zakończyło się niepowodzeniem', 'BŁĄD', 'snackBar-error');
                 });
             }
           } else {  // jezeli edytujemy klinike
@@ -121,8 +128,10 @@ export class ClinicComponent implements OnInit {
               viewTicket.copyValues(ticket);
               viewTable.renderRows();
               console.log(src);
+              this.snackBarService.openSnackBar('Edycja kliniki powiodła się.', 'Potwierdzenie', 'snackBar-success');
             }, error => {
               console.log(error);
+              this.snackBarService.openSnackBar('Edycja kliniki zakończyło się niepowodzeniem', 'BŁĄD', 'snackBar-error');
             });
           }
         } else if (result.delete) { // poprawic usuwanie nie odswieza tabeli
@@ -134,8 +143,10 @@ export class ClinicComponent implements OnInit {
               viewTable.renderRows();
             }
             viewTable.renderRows();
+            this.snackBarService.openSnackBar('Usuwanie kliniki powiodła się.', 'Potwierdzenie', 'snackBar-success');
           }, error => {
             console.log(error);
+            this.snackBarService.openSnackBar('Usuwanie kliniki zakończyło się niepowodzeniem', 'BŁĄD', 'snackBar-error');
           });
         }
       }

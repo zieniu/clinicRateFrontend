@@ -3,6 +3,7 @@ import { MatTableDataSource, MatDialog } from '@angular/material';
 import { UserMoreInfoComponent } from './user-more-info/user-more-info.component';
 import { Users } from 'src/_models/users';
 import { UserHttpService } from 'src/_services/http/user-http.service';
+import { SnackBarService } from 'src/_services/snack-bar.service';
 
 @Component({
   selector: 'app-user-list',
@@ -19,7 +20,7 @@ export class UserListComponent implements OnInit {
   userList: Users[] = [];
   accessLevel: any;
 
-  constructor(public dialog: MatDialog, private userHttpService: UserHttpService) { }
+  constructor(public dialog: MatDialog, private userHttpService: UserHttpService, private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.userHttpService.getAll().subscribe(user => { // pobranie listy uzytkownikow
@@ -69,9 +70,11 @@ export class UserListComponent implements OnInit {
         viewTicket.copyValues(ticket);
         this.userHttpService.update(result.ticket).subscribe(us => {
 console.log(result);
+this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
         },
           error => {
 console.log(error);
+this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
           });
         viewTable.renderRows();
       }

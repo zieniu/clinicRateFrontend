@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/_services/authentication.service';
+import { SnackBarService } from 'src/_services/snack-bar.service';
 
 
 @Component(
@@ -12,6 +13,7 @@ import { AuthenticationService } from 'src/_services/authentication.service';
     styleUrls: ['./login.component.scss']
   })
 export class LoginComponent implements OnInit {
+  [x: string]: any;
   loginForm: FormGroup;
   loading = false;
   submitted = false;
@@ -19,7 +21,7 @@ export class LoginComponent implements OnInit {
   passHide = true;
   date: Date;
   constructor(private route: ActivatedRoute, private router: Router,
-    private authenticationService: AuthenticationService, private formBuilder: FormBuilder) {
+    private authenticationService: AuthenticationService, private formBuilder: FormBuilder, private snackBarService: SnackBarService) {
 
   }
 
@@ -86,9 +88,10 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           this.router.navigate(['/pages']);
+          this.snackBarService.openSnackBar('Udane logowanie do aplikacji', 'Potwierdzenie', 'snackBar-success');
         },
         error => {
-          // this.alertService.error("Nieudane logowanie do aplikacji");
+          this.snackBarService.openSnackBar('Nieudane logowanie do aplikacji', 'BŁĄD', 'snackBar-error');
           this.loading = false;
         });
   }

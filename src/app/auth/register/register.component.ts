@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { UserHttpService } from 'src/_services/http/user-http.service';
+import { SnackBarService } from 'src/_services/snack-bar.service';
 
 export interface LevelAccess {
   value: number;
@@ -15,6 +16,7 @@ export interface LevelAccess {
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  [x: string]: any;
   registerForm: FormGroup;
   loading = false;
   submitted = false;
@@ -28,7 +30,8 @@ export class RegisterComponent implements OnInit {
   // ];
 
   constructor(
-    private formBuilder: FormBuilder, private router: Router, private userHttpService: UserHttpService) { }
+    private formBuilder: FormBuilder, private router: Router, private userHttpService: UserHttpService,
+     private snackBarService: SnackBarService) { }
 
 
 
@@ -66,6 +69,11 @@ export class RegisterComponent implements OnInit {
       .subscribe(
         data => {
           this.router.navigateByUrl('/login');
+          this.snackBarService.openSnackBar('Rejestracja powiodła się ', 'Potwierdzenie', 'snackBar-success');
+        },
+        error => {
+          this.snackBarService.openSnackBar('Rejestracja nie powiodła się', 'BŁĄD', 'snackBar-error');
+
         });
   }
 }

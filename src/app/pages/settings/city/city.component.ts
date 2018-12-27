@@ -3,6 +3,7 @@ import { DictCityHttpService } from 'src/_services/http/dict-city-http.service';
 import { DictCity } from 'src/_models/dictCity';
 import { MatTableDataSource, MatPaginator, PageEvent, MatDialog } from '@angular/material';
 import { CityMoreInfoComponent } from './city-more-info/city-more-info.component';
+import { SnackBarService } from 'src/_services/snack-bar.service';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class CityComponent implements OnInit {
   // MatPaginator Output
   pageEvent: PageEvent;
 
-  constructor(private dictCityHttpService: DictCityHttpService, private dialog: MatDialog) { }
+  constructor(private dictCityHttpService: DictCityHttpService, private dialog: MatDialog, private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.dictCityHttpService.getDictCities().subscribe(src => { // Pobieranie spisu miast z bazy danych
@@ -42,9 +43,11 @@ export class CityComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.dictCities);
       this.dataSource.paginator = this.paginator;
       this.isLoaded = true;
+      this.snackBarService.openSnackBar('Udane pobieranie spisu miast.', 'BŁĄD', 'snackBar-error');
     },
       error => {
         console.log(error);
+        this.snackBarService.openSnackBar('Niepowodzenie pobierania spisu miast.', 'BŁĄD', 'snackBar-error');
       });
   }
 
@@ -85,18 +88,22 @@ export class CityComponent implements OnInit {
               this.dataSource.data = this.dictCities;
               console.log(src);
               viewTable.renderRows();
+              this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
             },
               error => {
                 console.log(error);
+                this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
               });
           } else {  // jezeli edytujemy województwo
 
             this.dictCityHttpService.updateDictCity(result.ticket).subscribe(src => {
               viewTicket.copyValues(ticket);
               console.log(src);
+              this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
             },
               error => {
                 console.log(error);
+                this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
               });
           }
           viewTable.renderRows();
@@ -113,6 +120,7 @@ export class CityComponent implements OnInit {
           },
             error => {
               console.log(error);
+              this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
             });
         }
       }
