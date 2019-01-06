@@ -4,6 +4,7 @@ export class Opinion {
   description?: string;
   rate?: number;
   clinicId?: number;
+  dateCreated?: Date;
 
   copyValues(_ticket: Opinion) {
     this.opinionId = _ticket.opinionId;

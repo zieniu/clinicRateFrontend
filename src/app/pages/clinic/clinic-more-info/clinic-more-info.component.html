@@ -1,16 +1,16 @@
 <h3 mat-dialog-title>{{data.header}}</h3>
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content class="mat-typography" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
   <div style="float: left">
     <div class="containerButtons">
-      <button mat-raised-button *ngIf="!data.isNewClinic && roleGuardService.checkPermission(role.Moderator)" color="primary" (click)="data.isInEditMode = !data.isInEditMode"
-        [ngStyle]="{'background-color':data.isInEditMode ? '#3f51b5' : '#ff4081'}">
+      <button mat-raised-button class="btn-clinic-info" *ngIf="!data.isNewClinic && roleGuardService.checkPermission(role.Moderator)"
+        color="primary" (click)="data.isInEditMode = !data.isInEditMode" [ngStyle]="{'background-color':data.isInEditMode ? '#3f51b5' : '#ff4081'}">
         <span i18n="ClinicMoreInfo|Edycja kliniki">Edycja</span>
       </button>
-      <button mat-raised-button *ngIf="!data.isNewClinic && !data.delete && roleGuardService.checkPermission(role.Moderator)" color="primary" (click)="openDeleteDialog()"><span
-          i18n="ClinicMoreInfo|Usunięcie kliniki">Usuń</span></button>
+      <button mat-raised-button class="btn-clinic-info" *ngIf="!data.isNewClinic && !data.delete && roleGuardService.checkPermission(role.Moderator)"
+        color="primary" (click)="openDeleteDialog()"><span i18n="ClinicMoreInfo|Usunięcie kliniki">Usuń</span></button>
 
-      <button mat-raised-button color="primary" *ngIf="!data.isInEditMode || data.delete || (data.isNewClinic && roleGuardService.checkPermission(role.User))" type="submit" [mat-dialog-close]="data"><span
-          i18n="ClinicMoreInfo|Potwierdzenie zmian">Potwierdź</span></button>
+      <button mat-raised-button class="btn-clinic-info" color="primary" *ngIf="!data.isInEditMode || data.delete || (data.isNewClinic && roleGuardService.checkPermission(role.User))"
+        type="submit" [mat-dialog-close]="data"><span i18n="ClinicMoreInfo|Potwierdzenie zmian">Potwierdź</span></button>
     </div>
     <div class="containerMap">
       <img [src]="mapGoogle">
@@ -51,15 +51,58 @@
         #phoneNumber [(ngModel)]="data.ticket.phoneNumber" [ngModelOptions]="{standalone: true}" required>
     </mat-form-field>
     <br>
-    <button [disabled]="data.isInEditMode" *ngIf="data.isNewClinic && roleGuardService.checkPermission(role.User)" id="enterTheAddressBtn" mat-raised-button color="primary" (click)="openAddressDialog(data.ticket)">
+    <button [disabled]="data.isInEditMode" class="btn-clinic-info" *ngIf="(!data.isInEditMode || data.isNewClinic) && roleGuardService.checkPermission(role.User)"
+      id="enterTheAddressBtn" mat-raised-button color="primary" (click)="openAddressDialog(data.ticket)">
       <span i18n="ClinicMoreInfo|Zmiana adresu kliniki">Wprowadź adres</span>
     </button>
   </form>
   <div class="opinionsContainer" *ngIf="!data.isNewClinic">
-<ul *ngFor="let opinion of opinions">
-  <li>Tresc: {{opinion.description}} Srednia: {{opinion.rate}} </li>
-</ul>
-<button (click)="addOpinion()"></button>
+    <div id="newOpinion">
+
+      <div class="field1">
+        <div style="position: relative; width: 100%">
+          <mat-form-field style="float: left; width: 40%; margin-top: 15px;">
+            <input matInput #username [(ngModel)]="newOpinion.username" maxlength="10" placeholder="Login" [disabled]="checkLogin()">
+            <mat-hint align="end">{{username.value?.length || 0}}/10</mat-hint>
+          </mat-form-field>
+          <mat-card style="float: right; width: 45%; margin: 5px">Ocena ogolna:
+            <p-rating [cancel]="false" [ngModel]="average" readonly="true" style="float: left;"></p-rating>
+          </mat-card>
+        </div>
+        <form class="example-form">
+          <mat-form-field>
+            <textarea matInput #description placeholder="Dodaj opinie" [(ngModel)]="newOpinion.description" maxlength="255" [ngModelOptions]="{standalone: true}"></textarea>
+            <mat-hint align="end">{{description.value?.length || 0}}/255</mat-hint>
+          </mat-form-field>
+          <div class="single-rate">
+            <p-rating [cancel]="false" [(ngModel)]="rate" [ngModelOptions]="{standalone: true}"></p-rating>
+          </div>
+          <button mat-stroked-button style="margin: 0 0 10px 15px;" color="primary" (click)="addOpinion()">Dodaj</button>
+        </form>
+      </div>
+      <mat-divider></mat-divider>
+      <mat-select placeholder="Sortuj" style="margin: 10px 15px 10px 15px; width: 90%">
+          <mat-option *ngFor="let sort of sorts" [value]="sort.value">
+            {{sort.viewValue}}
+          </mat-option>
+        </mat-select>
+      <div id="oldOpinions">
+        <mat-divider></mat-divider>
+        <div class="listOfOpinions">
+          <mat-card class="contOpinion" *ngFor="let opinion of opinions">
+            <mat-card-header>
+              <mat-card-subtitle>{{opinion.dateCreated | date}} {{opinion.username}}</mat-card-subtitle>
+              <div class="single-rate">
+                <p-rating [(ngModel)]="opinion.rate" [cancel]="false" [readonly]="true"></p-rating>
+              </div>
+            </mat-card-header>
+            <mat-card-content>
+              {{opinion.description}}
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
   </div>
 </mat-dialog-content>
 <br>

@@ -22,26 +22,36 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   passHide = true;
 
-  // accessLevel: LevelAccess[] = [  // poziomy dostepu
-  //   { value: 10, viewValue: 'Odczyt' },
-  //   { value: 20, viewValue: 'Konserwator' },
-  //   { value: 30, viewValue: 'Moderator' },
-  //   { value: 40, viewValue: 'Administrator' }
-  // ];
-
   constructor(
     private formBuilder: FormBuilder, private router: Router, private userHttpService: UserHttpService,
-     private snackBarService: SnackBarService) { }
-
-
+    private snackBarService: SnackBarService) { }
 
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      email: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]]
     });
+  }
+
+  getErrorUsernameMessage() { // walidacja inputa username
+    return this.registerForm.controls['username'].hasError('required') ? 'Prosze wprowadzic login' :
+      this.registerForm.controls['username'].hasError('minlength') ? 'Login musi zawierać conajmniej 4 znaki' :
+        this.registerForm.controls['username'].hasError('maxlength') ? 'Login może zawierać maksymalnie 12 znaków' :
+          '';
+  }
+
+  getErrorPasswordMessage() { // walidacja inputa password
+    return this.registerForm.controls['password'].hasError('required') ? 'Prosze wprowadzic haslo' :
+      this.registerForm.controls['password'].hasError('minlength') ? 'Hasło musi zawierać conajmniej 6 znaków' :
+        '';
+  }
+
+  getErrorEmailMessage() { // walidacja inputa email
+    return this.registerForm.controls['email'].hasError('required') ? 'Prosze wprowadzić email' :
+      this.registerForm.controls['email'].hasError('email') ? 'Wprowadzono niepoprawny email' :
+        '';
   }
 
   getCheckRequired(): boolean { // jezeli pola nie sa wypilnione to przycisk jest nieaktywny

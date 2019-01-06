@@ -43,11 +43,9 @@ export class CityComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.dictCities);
       this.dataSource.paginator = this.paginator;
       this.isLoaded = true;
-      this.snackBarService.openSnackBar('Udane pobieranie spisu miast.', 'BŁĄD', 'snackBar-error');
     },
       error => {
         console.log(error);
-        this.snackBarService.openSnackBar('Niepowodzenie pobierania spisu miast.', 'BŁĄD', 'snackBar-error');
       });
   }
 
@@ -86,30 +84,25 @@ export class CityComponent implements OnInit {
             this.dictCityHttpService.addDictCity(result.ticket).subscribe(src => {
               this.dictCities.push(result.ticket);
               this.dataSource.data = this.dictCities;
-              console.log(src);
               viewTable.renderRows();
               this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
             },
               error => {
-                console.log(error);
                 this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
               });
           } else {  // jezeli edytujemy województwo
 
             this.dictCityHttpService.updateDictCity(result.ticket).subscribe(src => {
               viewTicket.copyValues(ticket);
-              console.log(src);
               this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
             },
               error => {
-                console.log(error);
                 this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
               });
           }
           viewTable.renderRows();
         } else if (result.deleted) {  // usuwanie slownika z bazy danych
           this.dictCityHttpService.deleteDictCity(result.ticket.dictCityId).subscribe(src => {
-            console.log(src);
             viewTable.renderRows();
             const index = this.dictCities.indexOf(viewTicket);
             if (index > -1) {
@@ -119,7 +112,6 @@ export class CityComponent implements OnInit {
             }
           },
             error => {
-              console.log(error);
               this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
             });
         }

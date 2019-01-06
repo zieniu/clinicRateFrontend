@@ -65,7 +65,7 @@ const pagesRoutes: Routes = [{
           component: UserListComponent,
           canActivate: [RoleGuard],
           data: {
-            expectedRole: Role.Moderator
+            expectedRole: Role.Admin
           }
         }
       ]

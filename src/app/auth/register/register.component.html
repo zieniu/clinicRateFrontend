@@ -4,6 +4,9 @@
       <mat-form-field class="control-width">
         <input #login matInput type="text" i18n-placeholder="Register|Pole wprowadzania loginu" placeholder="Login"
           formControlName="username" required autofocus>
+          <mat-error>
+            <span *ngIf="!registerForm.get('username').valid && registerForm.get('username').touched">{{getErrorUsernameMessage()}}</span>
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
@@ -12,12 +15,18 @@
           placeholder="Haslo" [type]="passHide ? 'password' : 'text'" required>
         <mat-icon matSuffix (click)="passHide = !passHide" style="cursor:pointer">{{passHide? 'visibility' :
           'visibility_off'}}</mat-icon>
+          <mat-error>
+            <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched">{{getErrorPasswordMessage()}}</span>
+        </mat-error>
       </mat-form-field>
     </div>
     <div>
       <mat-form-field class="control-width">
-        <input #login matInput type="email" i18n-placeholder="Register|Pole wprowadzania emaila" placeholder="Email"
+        <input matInput type="email" i18n-placeholder="Register|Pole wprowadzania emaila" placeholder="Email"
           formControlName="email" required autofocus>
+          <mat-error>
+            <span *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched">{{getErrorEmailMessage()}}</span>
+        </mat-error>
       </mat-form-field>
     </div>
     <!-- <div>
@@ -30,11 +39,11 @@
       </mat-form-field>
     </div> -->
     <div class="form-group">
-      <button [disabled]="loading || getCheckRequired()" class="btn-register" mat-raised-button color="primary">
+      <button [disabled]="getCheckRequired()" class="btn-register" mat-raised-button color="primary">
         <span i18n="Register|Przycisk rejestracji">Rejestracja</span>
       </button>
       <br>
-      <button [disabled]="loading" class="btn-register" routerLink="/login" mat-raised-button color="primary">
+      <button class="btn-register" routerLink="/login" mat-raised-button color="primary">
         <span i18n="Register|Przycisk anulowania">Anuluj</span>
       </button>
     </div>

@@ -62,12 +62,6 @@ export class ClinicAddressComponent implements OnInit {
         startWith(''),
         map(value => this._filterCity(value))
       );
-
-    this.filteredProvincies = this.provinceControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filterProvince(value))
-      );
   }
 
   setValuesToForm() {

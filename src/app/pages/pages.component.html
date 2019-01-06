@@ -15,7 +15,8 @@
         <span i18n="PagesApp|Zakladka dochodow">Kliniki</span>
       </b>
 
-      <b mat-raised-button [ngClass]="{'rotated' : showSubmenuSettings}" class="btn btn-menu" (click)="showSubmenuSettings=!showSubmenuSettings">
+      <b mat-raised-button [ngClass]="{'rotated' : showSubmenuSettings}" class="btn btn-menu" (click)="showSubmenuSettings=!showSubmenuSettings"
+        *ngIf="roleGuardService.checkPermission(role.Moderator)">
         <mat-icon class="menu-sub">settings</mat-icon>
         <span i18n="PagesApp|Zakladka ustawien">Ustawienia</span>
         <mat-icon class="menu-btn-icon" [ngClass]="{'rotated' : showSubmenuSettings}">expand_more</mat-icon>

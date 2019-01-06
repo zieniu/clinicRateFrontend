@@ -1,0 +1,23 @@
+h1 {
+  font-size: 3vmin;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  width: 50vw;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  color: black;
+}
+
+img {
+  display: block;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.3;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}

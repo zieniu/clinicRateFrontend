@@ -1,6 +1,6 @@
 <button mat-raised-button class="btnBack" (click)="goBackLocation()">Powrót</button>
 <div class="row">
-  <div class="col-lg-3">
+  <div class="col-xl-4">
     <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
       xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
       xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" version="1.0" width="497" height="463" id="svg2"
@@ -42,7 +42,7 @@
     </svg>
   </div>
 
-  <div class="mat-elevation-z8 col-lg-9" [hidden]="!isLoaded">
+  <div class="mat-elevation-z8 col-xl-8" [hidden]="!isLoaded">
     <div class="example-container">
       <table #table mat-table matSort [dataSource]="dataSource">
         <!-- Position Column -->
@@ -65,7 +65,7 @@
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="average">
-          <th mat-header-cell mat-sort-header *matHeaderCellDef> Średnia ocen </th>
+          <th mat-header-cell mat-sort-header="average" *matHeaderCellDef> Średnia ocen </th>
           <td mat-cell *matCellDef="let element"> {{element.average | number: '1.1-2'}} </td>
         </ng-container>
 
@@ -75,7 +75,8 @@
     </div>
     <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
   </div>
-  <div class="col-lg-9 cont-message" *ngIf="!isLoaded">
-    <h1><i>WYBIERZ WOJEWÓDZTWO</i></h1>
+  <div class="col-xl-8 cont-message" *ngIf="!isLoaded">
+    <h1 *ngIf="isLoadedMatSpinner"><i>WYBIERZ WOJEWÓDZTWO</i></h1>
+    <mat-spinner *ngIf="!isLoadedMatSpinner"></mat-spinner>
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClinicHttpService } from 'src/_services/http/clinic-http.service';
 import { Clinic } from 'src/_models/Clinic';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatSortable } from '@angular/material';
 import { Location } from '@angular/common';
 
 
@@ -24,19 +24,24 @@ export class ClinicStatisticComponent implements OnInit {
   pageSize = 10;
   pageSizeOptions: number[] = [10, 25, 100];
 
+
+
   // Ladowanie danych
+  isLoadedMatSpinner = true; // zmienan odpowiedzialna za ukrywanie naglowka
   isLoaded = false; // do sprawdzenia czy dane już są wczytane
 
   constructor(private clinicHttpService: ClinicHttpService, private location: Location) { }
 
   ngOnInit() {
     this.actionMap();
+    this.sort.sort(<MatSortable>({id: 'average', start: 'desc'}));
   }
 
   actionMap() { // przypisanie do danego fragmentu mapy dana akcje
-    const map = document.querySelectorAll('path');
+    const map = Array.from(document.querySelectorAll('path'));
     map.forEach(province => {
       province.addEventListener('click', () => {
+        this.isLoadedMatSpinner = false;
         this.getClinicListByProvince(province.id);
       });
     });
@@ -53,6 +58,7 @@ export class ClinicStatisticComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.clinicList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.dataSource.paginator.firstPage();
         this.isLoaded = true;
       });
   }

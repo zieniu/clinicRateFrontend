@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -12,18 +12,17 @@ import { SnackBarService } from 'src/_services/snack-bar.service';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
   })
-export class LoginComponent implements OnInit {
-  [x: string]: any;
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
   passHide = true;
   date: Date;
-  constructor(private route: ActivatedRoute, private router: Router,
-    private authenticationService: AuthenticationService, private formBuilder: FormBuilder, private snackBarService: SnackBarService) {
 
-  }
+  authSub: any;
+  constructor(private route: ActivatedRoute, private router: Router,
+    private authenticationService: AuthenticationService, private formBuilder: FormBuilder, private snackBarService: SnackBarService) {  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -36,6 +35,10 @@ export class LoginComponent implements OnInit {
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  ngOnDestroy(): void {
+    this.authSub.unsubscribe();
   }
 
   getCheckRequired(): boolean { // jezeli pola nie sa wypilnione to przycisk jest nieaktywny
@@ -77,13 +80,8 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // // stop here if form is invalid
-    // if (this.loginForm.invalid) {
-    //   return;
-    // }
-
     this.loading = true;
-    this.authenticationService.login(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value)
+    this.authSub = this.authenticationService.login(this.loginForm.controls['username'].value, this.loginForm.controls['password'].value)
       .pipe(first())
       .subscribe(
         data => {

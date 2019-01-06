@@ -16,10 +16,12 @@ import {
 } from './index';
 import { OpinionHttpService } from 'src/_services/http/opinion-http.service';
 import { PagesRoutingModule } from 'src/_modules/_routing/pages.routing.module';
+import {RatingModule} from 'primeng/rating';
 
 @NgModule({
   imports: [
     FormsModule,
+    RatingModule,
     CommonModule,
     SearchSelectModule,
     PagesRoutingModule,

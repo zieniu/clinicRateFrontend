@@ -5,13 +5,9 @@
         <span i18n="ClinicAddress|Wojewodztwo">Wprowadź województwo i kod pocztowy</span>
       </ng-template>
       <mat-form-field class="example-full-width">
-        <input type="text" i18n-placeholder="ClinicAddress|Wojewodztwo" placeholder="Województwo" aria-label="Number"
-          matInput [formControl]="provinceControl" [matAutocomplete]="autoProvince" required>
-        <mat-autocomplete #autoProvince="matAutocomplete">
-          <mat-option *ngFor="let province of filteredProvincies | async" [value]="province">
-            {{province}}
-          </mat-option>
-        </mat-autocomplete>
+        <mat-select i18n-placeholder="ClinicAddress|Wojewodztwo" placeholder="Województwo" [formControl]="provinceControl">
+          <mat-option *ngFor="let province of provincies" [value]="province">{{province}}</mat-option>
+        </mat-select>
       </mat-form-field>
       <br>
       <mat-form-field class="example-full-width">
