@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ClinicHttpService } from 'src/_services/http/clinic-http.service';
 import { Clinic } from 'src/_models/Clinic';
 import { PageEvent, MatTableDataSource, MatPaginator, MatSort, MatDialog } from '@angular/material';
@@ -10,18 +10,16 @@ import { DictCity } from 'src/_models/dictCity';
 import { RoleGuardService } from 'src/_services/role-guard.service';
 import { Role } from 'src/_models/users';
 import { SnackBarService } from 'src/_services/snack-bar.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-clinic',
   templateUrl: './clinic.component.html',
   styleUrls: ['./clinic.component.scss']
 })
-export class ClinicComponent implements OnInit {
+export class ClinicComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['id', 'name', 'cityId', 'provinceId', 'buttonMore'];
-  clinicList: Array<Clinic> = new Array<Clinic>(); // spis klinik dostepnych w bazie danych
-  provincesList: Array<DictProvince> = new Array<DictProvince>(); // lista wojewodztw
-  cityList: Array<DictCity> = new Array<DictCity>(); // lista miast
   dataSource: MatTableDataSource<Clinic>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -40,12 +38,18 @@ export class ClinicComponent implements OnInit {
   // ROLE
   role = Role; // zmienna odpowiedzialna za okreslenie dostepu
 
+  private clinicList: Array<Clinic> = new Array<Clinic>(); // spis klinik dostepnych w bazie danych
+  private clinicSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private clinicAddSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private clinicUpdSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private clinicDelSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+
   constructor(private clinicHttpService: ClinicHttpService, public dialog: MatDialog,
     public roleGuardService: RoleGuardService,
     private snackBarService: SnackBarService) { }
 
   ngOnInit() {
-    this.clinicHttpService.getClinics().subscribe(src => { // pobieranie listy klinik z bazy danych
+    this.clinicSub = this.clinicHttpService.getClinics().subscribe(src => { // pobieranie listy klinik z bazy danych
       src.forEach(s => {
         const clinic = new Clinic(); // przepisywanie klinik do nowych obiektow i dodawanie ich do listy
         clinic.city = s.city,
@@ -67,6 +71,21 @@ export class ClinicComponent implements OnInit {
         console.log(error);
         this.snackBarService.openSnackBar('Pobieranie listy klinik nie powiodło się.', 'BŁĄD', 'snackBar-error');
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.clinicSub !== undefined) {
+      this.clinicSub.unsubscribe();
+    }
+    if (this.clinicDelSub !== undefined) {
+      this.clinicDelSub.unsubscribe();
+    }
+    if (this.clinicUpdSub !== undefined) {
+      this.clinicUpdSub.unsubscribe();
+    }
+    if (this.clinicAddSub !== undefined) {
+      this.clinicAddSub.unsubscribe();
+    }
   }
 
   // Filtrowanie klinik
@@ -102,29 +121,31 @@ export class ClinicComponent implements OnInit {
         if (!result.delete) {
           if (isNewTicket) {  // jezeli tworzymy nowa klinike
             if (this.roleGuardService.checkPermission(1)) { // sprawdzanie czy dodajemy bezposredno do listy klinik czy do poczekalni
-              this.clinicHttpService.addClinic(result.ticket).subscribe(src => { // dodawanie nowej kliniki do bazy danych
-                this.clinicList.push(result.ticket);
-                this.dataSource.data = this.clinicList;
-                viewTable.renderRows();
-                this.snackBarService.openSnackBar('Dodano klinikę do poczekalni.', 'Potwierdzenie', 'snackBar-success');
-              },
-                error => {
-                  console.log(error);
-                  this.snackBarService.openSnackBar('Dodawanie kliniki zakończyło się niepowodzeniem.', 'BŁĄD', 'snackBar-error');
-                });
+              this.clinicAddSub = this.clinicHttpService.addClinic(result.ticket) // dodawanie nowej kliniki do bazy danych
+                .subscribe(src => {
+                  this.clinicList.push(result.ticket);
+                  this.dataSource.data = this.clinicList;
+                  viewTable.renderRows();
+                  this.snackBarService.openSnackBar('Dodano klinikę do poczekalni.', 'Potwierdzenie', 'snackBar-success');
+                },
+                  error => {
+                    console.log(error);
+                    this.snackBarService.openSnackBar('Dodawanie kliniki zakończyło się niepowodzeniem.', 'BŁĄD', 'snackBar-error');
+                  });
             } else {
               result.ticket.accepted = 0;
-              this.clinicHttpService.addClinic(result.ticket).subscribe(src => { // dodawanie nowej kliniki do bazy danych
+              this.clinicAddSub = this.clinicHttpService.addClinic(result.ticket)
+                .subscribe(src => { // dodawanie nowej kliniki do bazy danych
 
-                this.snackBarService.openSnackBar('Dodano klinikę do poczekalni.', 'Potwierdzenie', 'snackBar-success');
-              },
-                error => {
-                  console.log(error);
-                  this.snackBarService.openSnackBar('Dodawanie kliniki zakończyło się niepowodzeniem', 'BŁĄD', 'snackBar-error');
-                });
+                  this.snackBarService.openSnackBar('Dodano klinikę do poczekalni.', 'Potwierdzenie', 'snackBar-success');
+                },
+                  error => {
+                    console.log(error);
+                    this.snackBarService.openSnackBar('Dodawanie kliniki zakończyło się niepowodzeniem', 'BŁĄD', 'snackBar-error');
+                  });
             }
           } else {  // jezeli edytujemy klinike
-            this.clinicHttpService.updateClinic(result.ticket).subscribe(src => {
+            this.clinicUpdSub = this.clinicHttpService.updateClinic(result.ticket).subscribe(src => {
               viewTicket.copyValues(ticket);
               viewTable.renderRows();
               console.log(src);
@@ -135,7 +156,7 @@ export class ClinicComponent implements OnInit {
             });
           }
         } else if (result.delete) { // poprawic usuwanie nie odswieza tabeli
-          this.clinicHttpService.deleteClinic(result.ticket.clinicId).subscribe(src => {
+          this.clinicDelSub = this.clinicHttpService.deleteClinic(result.ticket.clinicId).subscribe(src => {
             const index = this.clinicList.indexOf(viewTicket);
             if (index > -1) {
               this.clinicList.splice(index, 1);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { DictCity } from 'src/_models/dictCity';
   templateUrl: './clinic-address.component.html',
   styleUrls: ['./clinic-address.component.scss']
 })
-export class ClinicAddressComponent implements OnInit {
+export class ClinicAddressComponent implements OnInit, OnDestroy {
 
   // tworzenie conrolerow do formatek
   cityControl = new FormControl();
@@ -26,27 +26,30 @@ export class ClinicAddressComponent implements OnInit {
   secondFormGroup: FormGroup;
   // #################################
 
-  cities: string[] = []; // lista miast
   provincies: string[] = []; // lista wojewodztw
   filteredCities: Observable<string[]>; // filtrowanie miast
-  filteredProvincies: Observable<string[]>; // filtrowanie wojewodztw
+
+  private cities: string[] = []; // lista miast
+  private citiesSub: any; // anulowanie subskrybcji dotyczacej pobierania miast
+  private provinciesSub: any; // anulowanie subskrybcji dotyczacej pobierania wojewodztw
 
   constructor(private dictCityHttpService: DictCityHttpService, private dictProvinceHttpService: DictProvinceHttpService,
     private _formBuilder: FormBuilder, private dialogRef: MatDialogRef<ClinicAddressComponent>,
     private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-    this.dictCityHttpService.getDictCities().subscribe(src => { // wczytywanie slownikow dotyczacych miast do aplikacji
+    this.citiesSub = this.dictCityHttpService.getDictCities().subscribe(src => { // wczytywanie slownikow dotyczacych miast do aplikacji
       src.forEach(s => {
         this.cities.push(s.name);
       });
     });
 
-    this.dictProvinceHttpService.getDictProvinces().subscribe(src => { // wczytywanie slownikow dotyczacych wojewodztw do aplikacji
-      src.forEach(p => {
-        this.provincies.push(p.name);
+    this.provinciesSub = this.dictProvinceHttpService.getDictProvinces() // wczytywanie slownikow dotyczacych wojewodztw do aplikacji
+      .subscribe(src => {
+        src.forEach(p => {
+          this.provincies.push(p.name);
+        });
       });
-    });
 
     this.setValuesToForm(); // przypisywanie wartosci do formatki
 
@@ -62,6 +65,15 @@ export class ClinicAddressComponent implements OnInit {
         startWith(''),
         map(value => this._filterCity(value))
       );
+  }
+
+  ngOnDestroy(): void {
+    if (this.citiesSub !== undefined) {
+      this.citiesSub.unsubscribe();
+    }
+    if (this.provinciesSub !== undefined) {
+      this.provinciesSub.unsubscribe();
+    }
   }
 
   setValuesToForm() {

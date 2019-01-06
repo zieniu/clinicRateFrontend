@@ -45,7 +45,7 @@
 
       <ng-container matColumnDef="buttonMore">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" style="padding-right: 0px !important">
+        <td mat-cell *matCellDef="let element">
           <button mat-raised-button class="btn-more" (click)="openClinicMoreInfoModal(table,element,true,'Szczegóły kliniki')">
             <span i18n="ClinicList|Przycisk ukazujacy szczegoly Kliniki">Więcej</span>
           </button>

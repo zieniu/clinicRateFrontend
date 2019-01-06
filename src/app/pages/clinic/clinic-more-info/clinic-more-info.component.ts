@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ClinicDeleteComponent } from './clinic-delete/clinic-delete.component';
 import { ClinicAddressComponent } from './clinic-address/clinic-address.component';
@@ -8,6 +8,7 @@ import { Role } from 'src/_models/users';
 import { Opinion } from 'src/_models/opinion';
 import { OpinionHttpService } from 'src/_services/http/opinion-http.service';
 import { reduce } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 interface Sort {
   value?: string;
@@ -19,34 +20,64 @@ interface Sort {
   templateUrl: './clinic-more-info.component.html',
   styleUrls: ['./clinic-more-info.component.scss']
 })
-export class ClinicMoreInfoComponent implements OnInit {
+export class ClinicMoreInfoComponent implements OnInit, OnDestroy {
+
   mapGoogle = '/assets/capture.png';
   role = Role;
 
   sorts: Sort[] = [
-    { value: 'Opinia1', viewValue: 'Najnizsze oceny' },
-    { value: 'Opinia2', viewValue: 'Najnizsze oceny' },
-    { value: 'Data1', viewValue: 'Najnowsze' },
-    { value: 'Data2', viewValue: 'Najstarsze' }
+    { value: 'high', viewValue: 'Najwyzsze oceny' },
+    { value: 'low', viewValue: 'Najnizsze oceny' },
+    { value: 'new', viewValue: 'Najnowsze' },
+    { value: 'old', viewValue: 'Najstarsze' }
   ];
 
-  cities: any; // zmienna odpowiadająca za przechowywanie slowników dotyczących nazw miast
   opinions: Array<Opinion> = new Array<Opinion>(); // lista opinii
   newOpinion: Opinion = new Opinion(); // dodawanie nowej opinii
   average: number; // srednia ocen
   rate: number;
+
+  private cities: any; // zmienna odpowiadająca za przechowywanie slowników dotyczących nazw miast
+  private clinicSub: Subscription; // zmienna odpowiedzialna za subskrybcje dotyczaca clinic
 
   constructor(public dialogRef: MatDialogRef<ClinicMoreInfoComponent>, public roleGuardService: RoleGuardService,
     private opinionHttpService: OpinionHttpService,
     private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-    this.opinionHttpService.getOpinionsByClinic(this.data.ticket.clinicId).subscribe(src => {
+    this.clinicSub = this.opinionHttpService.getOpinionsByClinic(this.data.ticket.clinicId).subscribe(src => {
       this.opinions = src;
       this.averageRate(src);
     });
 
     this.checkLogin(); // sprawdzanie loginu aktualnie zalogowanego uzytkownika
+  }
+
+  ngOnDestroy(): void {
+    if (this.clinicSub !== undefined) {
+      this.clinicSub.unsubscribe();
+    }
+  }
+
+  sortOpinions(sort: any) { // sortowanie opinii
+    let sortOpinions = [];
+    if (sort.value === 'old') { // najstarsze
+      sortOpinions = this.opinions.sort((op1, op2) => {
+        return <any>new Date(op1.dateCreated) - <any>new
+          Date(op2.dateCreated);
+      });
+    } else if (sort.value === 'new') { // najnowsze
+      sortOpinions = this.opinions.sort((op1, op2) => {
+        return <any>new Date(op2.dateCreated) - <any>new
+          Date(op1.dateCreated);
+      });
+    } else if (sort.value === 'low') { // najslabsze oceny
+      sortOpinions = this.opinions.sort((op1, op2) => op1.rate - op2.rate);
+    } else if (sort.value === 'high') { // najlepsze oceny
+      sortOpinions = this.opinions.sort((op1, op2) => op2.rate - op1.rate);
+    }
+
+    this.opinions = sortOpinions;
   }
 
   applyFilter(filterValue: string) { // Filtrowanie klinik

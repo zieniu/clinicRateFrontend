@@ -1,18 +1,21 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { UserDeleteDialogComponent } from './user-delete-dialog/user-delete-dialog.component';
 import { Role } from 'src/_models/users';
 import { UserHttpService } from 'src/_services/http/user-http.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-more-info',
   templateUrl: './user-more-info.component.html',
   styleUrls: ['./user-more-info.component.scss']
 })
-export class UserMoreInfoComponent implements OnInit {
+export class UserMoreInfoComponent implements OnInit, OnDestroy {
 
   roles: any;
   roleLvl = Role; // typ wyliczeniowy enum
+
+  private userDelSub: Subscription; // zmienna odpowiedzialna za subskrybcje
 
   constructor(public dialogRef: MatDialogRef<UserMoreInfoComponent>, public dialog: MatDialog, private userHttpService: UserHttpService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -21,6 +24,12 @@ export class UserMoreInfoComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  ngOnDestroy(): void {
+    if (this.userDelSub !== undefined) {
+      this.userDelSub.unsubscribe();
+    }
   }
 
   openConfirmationDialog(availability: number): void {  // okno zatwierdzania usuniecia badz przywrocenia pracownika
@@ -32,7 +41,7 @@ export class UserMoreInfoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {  // jezeli tak to wtedy zapisz
-        this.userHttpService.delete(this.data.ticket.userId).subscribe(sub => {
+        this.userDelSub = this.userHttpService.delete(this.data.ticket.userId).subscribe(sub => {
           this.data.ticket.deleted = result.available;
           console.log(result);
         },

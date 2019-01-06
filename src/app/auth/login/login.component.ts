@@ -20,9 +20,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   passHide = true;
   date: Date;
 
-  authSub: any;
+  private authSub: any; // zmienna zwalniajaca subskrypcje
+
   constructor(private route: ActivatedRoute, private router: Router,
-    private authenticationService: AuthenticationService, private formBuilder: FormBuilder, private snackBarService: SnackBarService) {  }
+    private authenticationService: AuthenticationService, private formBuilder: FormBuilder, private snackBarService: SnackBarService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -38,7 +39,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authSub.unsubscribe();
+    if (this.authSub !== undefined) {
+      this.authSub.unsubscribe();
+    }
   }
 
   getCheckRequired(): boolean { // jezeli pola nie sa wypilnione to przycisk jest nieaktywny

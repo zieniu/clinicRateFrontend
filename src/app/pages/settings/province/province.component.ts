@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DictProvince } from 'src/_models/dictProvince';
 import { DictProvinceHttpService } from 'src/_services/http/dict-province-http.service';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { ProvinceMoreInfoComponent } from './province-more-info/province-more-info.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-province',
   templateUrl: './province.component.html',
   styleUrls: ['./province.component.scss']
 })
-export class ProvinceComponent implements OnInit {
-
+export class ProvinceComponent implements OnInit, OnDestroy {
   displayedColumns = ['id', 'name', 'buttonMore'];
-  dictProvinces: DictProvince[] = [];
   dataSource: MatTableDataSource<DictProvince>;
 
   // PROGRESSBAR
   isLoaded = false; // do sprawdzenia czy dane już są wczytane - wtedy progress bar znika
+
+  private dictProvinces: DictProvince[] = [];
+  private dictProSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private dictProAddSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private dictProUpdSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private dictProDelSub: Subscription; // zmienna odpowiedzialna za subskrybcje
 
   constructor(private dictProvinceHttpService: DictProvinceHttpService, private dialog: MatDialog) { }
 
@@ -35,6 +40,21 @@ export class ProvinceComponent implements OnInit {
       error => {
         console.log(error);
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dictProSub !== undefined) {
+      this.dictProSub.unsubscribe();
+    }
+    if (this.dictProAddSub !== undefined) {
+      this.dictProAddSub.unsubscribe();
+    }
+    if (this.dictProUpdSub !== undefined) {
+      this.dictProUpdSub.unsubscribe();
+    }
+    if (this.dictProDelSub !== undefined) {
+      this.dictProDelSub.unsubscribe();
+    }
   }
 
   // Filtrowanie miast
@@ -68,7 +88,7 @@ export class ProvinceComponent implements OnInit {
       if (result !== undefined) { // jezeli result nie nie jest undefined
         if (!result.deleted) { // jezeli nie usuwamy slownika
           if (isNewTicket) {  // jezeli tworzymy nowe województwo
-            this.dictProvinceHttpService.addDictProvince(result.ticket).subscribe(src => {
+            this.dictProAddSub = this.dictProvinceHttpService.addDictProvince(result.ticket).subscribe(src => {
               this.dictProvinces.push(result.ticket);
               console.log(src);
               viewTable.renderRows();
@@ -78,7 +98,7 @@ export class ProvinceComponent implements OnInit {
               });
           } else {  // jezeli edytujemy województwo
 
-            this.dictProvinceHttpService.updateDictProvince(result.ticket).subscribe(src => {
+            this.dictProUpdSub = this.dictProvinceHttpService.updateDictProvince(result.ticket).subscribe(src => {
               viewTicket.copyValues(ticket);
               console.log(src);
             },
@@ -88,7 +108,7 @@ export class ProvinceComponent implements OnInit {
           }
           viewTable.renderRows();
         } else if (result.deleted) {  // usuwanie slownika z bazy danych
-          this.dictProvinceHttpService.deleteDictProvince(result.ticket.dictProvinceId).subscribe(src => {
+          this.dictProDelSub = this.dictProvinceHttpService.deleteDictProvince(result.ticket.dictProvinceId).subscribe(src => {
             console.log(src);
             viewTable.renderRows();
             const index = this.dictProvinces.indexOf(viewTicket);

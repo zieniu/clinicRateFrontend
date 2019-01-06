@@ -1,21 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material';
 import { ClinicHttpService } from 'src/_services/http/clinic-http.service';
 import { Clinic } from 'src/_models/Clinic';
 import { ClinicMoreInfoComponent } from '../clinic-more-info/clinic-more-info.component';
 import { SnackBarService } from 'src/_services/snack-bar.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-clinic-tmplist',
   templateUrl: './clinic-tmplist.component.html',
   styleUrls: ['./clinic-tmplist.component.scss']
 })
-export class ClinicTMPListComponent implements OnInit {
+export class ClinicTMPListComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['id', 'name', 'cityId', 'provinceId', 'buttonAccept', 'buttonRemove', 'buttonMore'];
-  clinicListTMP: Array<Clinic> = new Array<Clinic>(); // spis klinik dostepnych w bazie danych
   dataSource: any;
-
 
   // PAGINATOR
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -25,6 +24,11 @@ export class ClinicTMPListComponent implements OnInit {
 
   // PROGRESSBAR
   isLoaded = false; // do sprawdzenia czy dane już są wczytane - wtedy progress bar znika
+
+  private clinicListTMP: Array<Clinic> = new Array<Clinic>(); // spis klinik dostepnych w bazie danych
+  private clinicSub: Subscription; // zmienna odpowiedzialna za subskrybcje klinik
+  private clinicDelSub: Subscription; // zmienna odpowiedzialna za subskrybcje klinik
+  private clinicUpdSub: Subscription;  // zmienna odpowiedzialna za subskrybcje klinik
 
   constructor(private dialog: MatDialog, private clinicHttpService: ClinicHttpService, private snackBarService: SnackBarService) { }
 
@@ -52,6 +56,17 @@ export class ClinicTMPListComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    if (this.clinicSub !== undefined) {
+      this.clinicSub.unsubscribe();
+    }
+    if (this.clinicUpdSub !== undefined) {
+      this.clinicUpdSub.unsubscribe();
+    }
+    if (this.clinicDelSub !== undefined) {
+      this.clinicDelSub.unsubscribe();
+    }
+  }
 
   // Otwieranie okna wlasciwosci kliniki
   openClinicMoreInfoModal(viewTable: any, viewTicket: Clinic, InEditMode: boolean, head: string) {
@@ -74,13 +89,11 @@ export class ClinicTMPListComponent implements OnInit {
 
     detailsModalRef.afterClosed().subscribe(result => {
       if (result !== undefined) { // jezeli dane przeszły walidacje
-        this.clinicHttpService.updateClinic(result.ticket).subscribe(src => {
+        this.clinicSub = this.clinicHttpService.updateClinic(result.ticket).subscribe(src => {
           viewTicket.copyValues(ticket);
           viewTable.renderRows();
-          console.log(src);
-          // this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
+          this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
         }, error => {
-          console.log(error);
           this.snackBarService.openSnackBar('Nieudane otwieranie okna właciwosci.', 'BŁĄD', 'snackBar-error');
         });
       }
@@ -89,7 +102,7 @@ export class ClinicTMPListComponent implements OnInit {
 
   acceptClinic(table: any, clinic: Clinic) { // akceptowanie kliniki
     clinic.accepted = 1;
-    this.clinicHttpService.updateClinic(clinic).subscribe(src => {
+    this.clinicUpdSub = this.clinicHttpService.updateClinic(clinic).subscribe(src => {
       const index = this.clinicListTMP.indexOf(clinic);
       if (index > -1) {
         this.clinicListTMP.splice(index, 1);
@@ -97,7 +110,8 @@ export class ClinicTMPListComponent implements OnInit {
         table.renderRows();
       }
       table.renderRows();
-      this.snackBarService.openSnackBar('Zaakceprtowano klinikę.', 'Potwierdzenie', 'snackBar-success');     },
+      this.snackBarService.openSnackBar('Zaakceprtowano klinikę.', 'Potwierdzenie', 'snackBar-success');
+    },
       error => {
         this.snackBarService.openSnackBar('Akceptowanie kliniki nie powiodło się.', 'BŁĄD', 'snackBar-error');
 
@@ -105,7 +119,7 @@ export class ClinicTMPListComponent implements OnInit {
   }
 
   removeClinic(table: any, clinic: Clinic) { // usuniecie kliniki
-    this.clinicHttpService.deleteClinic(clinic.clinicId).subscribe(src => {
+    this.clinicDelSub = this.clinicHttpService.deleteClinic(clinic.clinicId).subscribe(src => {
       const index = this.clinicListTMP.indexOf(clinic);
       if (index > -1) {
         this.clinicListTMP.splice(index, 1);

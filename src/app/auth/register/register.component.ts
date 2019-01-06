@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -15,12 +15,14 @@ export interface LevelAccess {
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
-  [x: string]: any;
+export class RegisterComponent implements OnInit, OnDestroy {
+
   registerForm: FormGroup;
   loading = false;
   submitted = false;
   passHide = true;
+
+  private regSub: any; // zmienna odpowiedzialna za anulowanie subskrypcji rejestracji
 
   constructor(
     private formBuilder: FormBuilder, private router: Router, private userHttpService: UserHttpService,
@@ -33,6 +35,12 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       email: ['', [Validators.required, Validators.email]]
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.regSub !== undefined) {
+      this.regSub.unsubscribe();
+    }
   }
 
   getErrorUsernameMessage() { // walidacja inputa username

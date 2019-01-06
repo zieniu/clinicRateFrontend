@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { DictCityHttpService } from 'src/_services/http/dict-city-http.service';
 import { DictCity } from 'src/_models/dictCity';
 import { MatTableDataSource, MatPaginator, PageEvent, MatDialog } from '@angular/material';
 import { CityMoreInfoComponent } from './city-more-info/city-more-info.component';
 import { SnackBarService } from 'src/_services/snack-bar.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -11,10 +12,9 @@ import { SnackBarService } from 'src/_services/snack-bar.service';
   templateUrl: './city.component.html',
   styleUrls: ['./city.component.scss']
 })
-export class CityComponent implements OnInit {
+export class CityComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['id', 'name', 'buttonMore'];
-  dictCities: DictCity[] = [];
   dataSource: MatTableDataSource<DictCity>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,10 +30,16 @@ export class CityComponent implements OnInit {
   // MatPaginator Output
   pageEvent: PageEvent;
 
+  private dictCities: DictCity[] = [];
+  private dictCitySub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private dictCityAddSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private dictCityUpdSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private dictCityDelSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+
   constructor(private dictCityHttpService: DictCityHttpService, private dialog: MatDialog, private snackBarService: SnackBarService) { }
 
   ngOnInit() {
-    this.dictCityHttpService.getDictCities().subscribe(src => { // Pobieranie spisu miast z bazy danych
+    this.dictCitySub = this.dictCityHttpService.getDictCities().subscribe(src => { // Pobieranie spisu miast z bazy danych
       src.forEach(dict => {
         const city = new DictCity();
         city.dictCityId = dict.dictCityId;
@@ -47,6 +53,21 @@ export class CityComponent implements OnInit {
       error => {
         console.log(error);
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dictCitySub !== undefined) {
+      this.dictCitySub.unsubscribe();
+    }
+    if (this.dictCityAddSub !== undefined) {
+      this.dictCityAddSub.unsubscribe();
+    }
+    if (this.dictCityUpdSub !== undefined) {
+      this.dictCityUpdSub.unsubscribe();
+    }
+    if (this.dictCityDelSub !== undefined) {
+      this.dictCityDelSub.unsubscribe();
+    }
   }
 
   // Filtrowanie miast
@@ -81,7 +102,7 @@ export class CityComponent implements OnInit {
       if (result !== undefined) { // jezeli result nie nie jest undefined
         if (!result.deleted) { // jezeli nie usuwamy slownika
           if (isNewTicket) {  // jezeli tworzymy nowe województwo
-            this.dictCityHttpService.addDictCity(result.ticket).subscribe(src => {
+            this.dictCityAddSub = this.dictCityHttpService.addDictCity(result.ticket).subscribe(src => {
               this.dictCities.push(result.ticket);
               this.dataSource.data = this.dictCities;
               viewTable.renderRows();
@@ -91,8 +112,7 @@ export class CityComponent implements OnInit {
                 this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
               });
           } else {  // jezeli edytujemy województwo
-
-            this.dictCityHttpService.updateDictCity(result.ticket).subscribe(src => {
+            this.dictCityUpdSub = this.dictCityHttpService.updateDictCity(result.ticket).subscribe(src => {
               viewTicket.copyValues(ticket);
               this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
             },
@@ -102,7 +122,7 @@ export class CityComponent implements OnInit {
           }
           viewTable.renderRows();
         } else if (result.deleted) {  // usuwanie slownika z bazy danych
-          this.dictCityHttpService.deleteDictCity(result.ticket.dictCityId).subscribe(src => {
+          this.dictCityDelSub = this.dictCityHttpService.deleteDictCity(result.ticket.dictCityId).subscribe(src => {
             viewTable.renderRows();
             const index = this.dictCities.indexOf(viewTicket);
             if (index > -1) {

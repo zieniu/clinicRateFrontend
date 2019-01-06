@@ -14,35 +14,15 @@
   padding: 8px 24px 0;
 }
 
-.mat-column-id {
-  flex: 0 0 100px;
-}
-
-.mat-column-name {
-  flex: 0 0 auto;
-  max-width: 600px;
-}
-
-.mat-column-cityId {
-  flex: 0 0 150px;
-  min-width: 60px;
-}
-
-.mat-column-provinceId {
-  flex: 0 0 150px;
-  min-width: 60px;
-}
-
 .mat-column-buttonAccept {
-  max-width: 50px;
+  margin-right: 5px;
 }
 .mat-column-buttonRemove {
-  max-width: 50px;
+  margin-right: 5px;
 }
 
 .mat-column-buttonMore {
-  max-width: 7%;
-  min-width: 90px;
+  margin-right: 5px;
 }
 // Przycisk accept, remove
 .btn-accept,

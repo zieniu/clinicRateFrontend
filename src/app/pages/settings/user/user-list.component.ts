@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatTableDataSource, MatDialog } from '@angular/material';
 import { UserMoreInfoComponent } from './user-more-info/user-more-info.component';
 import { Users } from 'src/_models/users';
 import { UserHttpService } from 'src/_services/http/user-http.service';
 import { SnackBarService } from 'src/_services/snack-bar.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
+
 
   displayedColumns = ['numberUsers', 'login', 'permissions', 'deleted', 'buttonMore'];
   dataSource: MatTableDataSource<Users>;
-  availability = ['Dostępne', 'Usunięte', 'Wszystkie']; // nazwy radiobuttonow
-  filterList: any;  // wyfiltrowana lista uzytkownikow (dostepne,usuniete,wszystko)
-  userFilter: any;
-  userList: Users[] = [];
-  accessLevel: any;
+
+  private userList: Users[] = [];
+  private accessLevel: any;
+  private userSub: Subscription; // zmienna odpowiedzialna za subskrybcje
+  private userUpdSub: Subscription; // zmienna odpowiedzialna za subskrybcje
 
   constructor(public dialog: MatDialog, private userHttpService: UserHttpService, private snackBarService: SnackBarService) { }
 
@@ -37,8 +39,17 @@ export class UserListComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.userList);
     },
       error => {
-       console.log(error);
+        console.log(error);
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.userSub !== undefined) {
+      this.userSub.unsubscribe();
+    }
+    if (this.userUpdSub !== undefined) {
+      this.userUpdSub.unsubscribe();
+    }
   }
 
   applyFilter(filterValue: string) {  // filtrowanie tabeli
@@ -68,13 +79,13 @@ export class UserListComponent implements OnInit {
     detailsModalRef.afterClosed().subscribe(result => {
       if (result) {
         viewTicket.copyValues(ticket);
-        this.userHttpService.update(result.ticket).subscribe(us => {
-console.log(result);
-this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
+        this.userUpdSub = this.userHttpService.update(result.ticket).subscribe(us => {
+          console.log(result);
+          this.snackBarService.openSnackBar('Operacja udana.', 'Potwierdzenie', 'snackBar-success');
         },
           error => {
-console.log(error);
-this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
+            console.log(error);
+            this.snackBarService.openSnackBar('Operacja niepowiodła się.', 'BŁĄD', 'snackBar-error');
           });
         viewTable.renderRows();
       }
