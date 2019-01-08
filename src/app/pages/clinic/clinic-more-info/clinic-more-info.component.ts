@@ -9,6 +9,7 @@ import { Opinion } from 'src/_models/opinion';
 import { OpinionHttpService } from 'src/_services/http/opinion-http.service';
 import { reduce } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { google } from '@agm/core/services/google-maps-types';
 
 interface Sort {
   value?: string;
@@ -21,6 +22,9 @@ interface Sort {
   styleUrls: ['./clinic-more-info.component.scss']
 })
 export class ClinicMoreInfoComponent implements OnInit, OnDestroy {
+
+  lat = 51.678418;
+  lng = 7.809007;
 
   mapGoogle = '/assets/capture.png';
   role = Role;

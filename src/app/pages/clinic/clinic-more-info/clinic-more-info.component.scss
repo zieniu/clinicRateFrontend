@@ -24,10 +24,8 @@ margin: 0px 5px 5px 5px;
 }
 
 .containerMap {
-  img {
-    width: 300px;
-    margin: 5px;
-  }
+width: auto;
+height: auto;
 }
 
 // ###########################################################
@@ -106,4 +104,9 @@ mat-form-field {
   max-width: 100%;
   margin-bottom: 5px;
   background: #fafafa;
+}
+
+agm-map {
+  height: 200px;
+  width: 300px;
 }

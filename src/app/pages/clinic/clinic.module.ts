@@ -17,6 +17,7 @@ import {
 import { OpinionHttpService } from 'src/_services/http/opinion-http.service';
 import { PagesRoutingModule } from 'src/_modules/_routing/pages.routing.module';
 import {RatingModule} from 'primeng/rating';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   imports: [
@@ -27,7 +28,10 @@ import {RatingModule} from 'primeng/rating';
     PagesRoutingModule,
     ReactiveFormsModule,
     AngularMaterialModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDiZCkqQJH4zYU5K4hdahJ32T7mpUrG0e0'
+    })
   ],
   declarations: [
     ClinicComponent,
