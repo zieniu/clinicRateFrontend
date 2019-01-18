@@ -10,7 +10,7 @@ export class DeletePipe implements PipeTransform {
     if (value === 0) {
       deleted = 'Dostępny';
     } else {
-      deleted = 'Usunięty';
+      deleted = 'Zbanowany';
     }
     return deleted;
   }

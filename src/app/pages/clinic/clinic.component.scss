@@ -14,34 +14,34 @@
   padding: 8px 24px 0;
 }
 
+.btn-cont {
+display: block;
+}
+
 .mat-column-id {
-  flex: 0 0 100px;
+  width: 100px;
 }
 
 .mat-column-name {
-  flex: 0 0 auto;
   max-width: 600px;
 }
 
 .mat-column-cityId {
-  flex: 0 0 150px;
-  min-width: 60px;
+  min-width: 100px;
 }
 
 .mat-column-provinceId {
-  flex: 0 0 150px;
-  min-width: 60px;
+  min-width: 100px;
+
 }
 
 .mat-column-buttonMore {
-  max-width: 7%;
-  min-width: 90px;
+  min-width: 105px;
 }
 
 /* Przycisk wiecej */
 .btn-more {
   @include buttonStyle(150px,100px,35px,1px,$buttonColorPrimary,$buttonColorPrimaryHover);
-  margin-right:2%;
   color: white;
 }
 
@@ -58,9 +58,10 @@
 
 .btnAddClinic { // przycisk dodajacy nowa klinike
   @include buttonStyle(200px,100px,45px,1px,$buttonColorPrimary,$buttonColorPrimaryHover);
-  float: right;
-  right: 0;
   color:white;
+  float: right;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 .btnStatistic{ // statystyki klinik
@@ -68,6 +69,7 @@
   color:white;
   float: right;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 
 

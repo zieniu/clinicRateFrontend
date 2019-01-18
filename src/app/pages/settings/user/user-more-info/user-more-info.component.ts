@@ -56,7 +56,7 @@ export class UserMoreInfoComponent implements OnInit, OnDestroy {
 
   statusButtonDelete(deleted) { // sprawdzanie statusu dostepnosci
     if (deleted === 0) {
-      return 'Usuń';
+      return 'Zbanuj';
     } else {
       return 'Przywróć';
     }

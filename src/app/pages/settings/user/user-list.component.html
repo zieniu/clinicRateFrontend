@@ -1,12 +1,18 @@
 <div class="example-header">
-  <mat-form-field style="width: 80%">
-    <input matInput (keyup)="applyFilter($event.target.value)" i18n-placeholder="UsersList|Filtrowanie danego użytkownika" placeholder="Filtr">
-  </mat-form-field>
-  <button mat-raised-button color="primary" class="btn-add" routerLink="/register">
-    <span i18n="UsersList|Przycisk dodajacy nowego użytkownika">Dodaj użytkownika</span>
-  </button>
+  <div class="row">
+      <div class="col-12 col-xl-7">
+          <mat-form-field style="width: 100%">
+              <input matInput (keyup)="applyFilter($event.target.value)" i18n-placeholder="UsersList|Filtrowanie danego użytkownika" placeholder="Filtr">
+            </mat-form-field>
+      </div>
+      <div class="col-12 col-xl-5 btn-cont">
+          <button mat-raised-button color="primary" class="btn-add" routerLink="/register">
+            <span i18n="UsersList|Przycisk dodajacy nowego użytkownika">Dodaj użytkownika</span>
+          </button>
+      </div>
+      <br>
+    </div>
 </div>
-
 <div class="example-container mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource">
 

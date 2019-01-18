@@ -14,10 +14,10 @@ export class UserDeleteDialogComponent implements OnInit {
 
   ngOnInit() {
     if (this.data.available === 0) {  // uzupelnianie confirm dialogu, przypisywanie do deleted wartosci
-      this.content = 'Czy napewno chcesz usunąć użytkownika?';
+      this.content = 'Czy napewno chcesz zbanować użytkownika?';
       this.data.available = 1;
     } else {
-      this.content = 'Czy napewno chcesz przywrócic użytkownika?';
+      this.content = 'Czy napewno chcesz przywrócić użytkownika?';
       this.data.available = 0;
     }
   }

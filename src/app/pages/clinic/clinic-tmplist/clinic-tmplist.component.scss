@@ -2,11 +2,13 @@
 @import "mixins";
 
 .example-container {
-  display: flex;
-  flex-direction: column;
   min-width: 300px;
   max-height: 700px;
   overflow: auto;
+}
+
+table {
+  width: 100%;
 }
 
 .example-header {
@@ -14,21 +16,31 @@
   padding: 8px 24px 0;
 }
 
-.mat-column-buttonAccept {
-  margin-right: 5px;
+.mat-column-id {
+  max-width: 100px;
+}
+
+.mat-column-name {
+max-width: 400px;
+}
+.mat-column-cityId {
+  max-width: 200px;
+}
+.mat-column-provinceId {
+  max-width: 200px;
 }
 .mat-column-buttonRemove {
-  margin-right: 5px;
+  max-width: 200px;
 }
 
 .mat-column-buttonMore {
-  margin-right: 5px;
+  max-width: 200px;
 }
 // Przycisk accept, remove
 .btn-accept,
 .btn-remove {
   @include buttonStyle(
-    100px,
+    150px,
     50px,
     35px,
     0px,
@@ -37,7 +49,6 @@
   );
   color: white;
 }
-
 /* Przycisk wiecej */
 .btn-more {
   @include buttonStyle(
@@ -53,7 +64,6 @@
 }
 
 // CONTAINERS HEADERS
-
 .col-12 {
   mat-form-field {
     width: 100%;
